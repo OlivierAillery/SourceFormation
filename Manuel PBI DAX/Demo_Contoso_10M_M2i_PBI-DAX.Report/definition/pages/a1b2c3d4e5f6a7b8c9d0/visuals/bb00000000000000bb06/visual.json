@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bb00000000000000bb06",
+  "position": {
+    "x": 640,
+    "y": 196,
+    "z": 0,
+    "height": 270,
+    "width": 616,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Mois-Année"
+                }
+              },
+              "queryRef": "DimDates.Mois-Année",
+              "nativeQueryRef": "Mois-Année",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Marge Brute"
+                }
+              },
+              "queryRef": "_Mesures.Marge Brute",
+              "nativeQueryRef": "Marge Brute"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Marge Brute YTD"
+                }
+              },
+              "queryRef": "_Mesures.Marge Brute YTD",
+              "nativeQueryRef": "Marge Brute YTD"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDates"
+                  }
+                },
+                "Property": "Année-Mois"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

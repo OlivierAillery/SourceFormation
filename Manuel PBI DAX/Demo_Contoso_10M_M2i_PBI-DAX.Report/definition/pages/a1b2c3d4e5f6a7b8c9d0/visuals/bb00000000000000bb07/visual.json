@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bb00000000000000bb07",
+  "position": {
+    "x": 24,
+    "y": 482,
+    "z": 0,
+    "height": 214,
+    "width": 1232,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année"
+                }
+              },
+              "queryRef": "DimDates.Année",
+              "nativeQueryRef": "Année",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduits"
+                    }
+                  },
+                  "Property": "Catégorie"
+                }
+              },
+              "queryRef": "DimProduits.Catégorie",
+              "nativeQueryRef": "Catégorie",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Marge Brute"
+                }
+              },
+              "queryRef": "_Mesures.Marge Brute",
+              "nativeQueryRef": "Marge Brute"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Taux de Marge"
+                }
+              },
+              "queryRef": "_Mesures.Taux de Marge",
+              "nativeQueryRef": "Taux de Marge"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Marge Brute Var% N-1"
+                }
+              },
+              "queryRef": "_Mesures.Marge Brute Var% N-1",
+              "nativeQueryRef": "Marge Brute Var% N-1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

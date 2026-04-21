@@ -1,0 +1,181 @@
+/// Table des clients
+table DimClients
+	lineageTag: de8fc78e-cf52-49de-b32b-f8260f0ffa84
+
+	column IDClient
+		dataType: int64
+		formatString: 0
+		lineageTag: d319012b-78b1-4eb3-b7b1-981fc3f5f797
+		summarizeBy: none
+		sourceColumn: IDClient
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateDebutClient
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 29fdeda4-6856-491c-8c45-7cd53a0d24d8
+		summarizeBy: none
+		sourceColumn: DateDebutClient
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateFinClient
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a560c1ac-7d04-44da-b920-f6914555e525
+		summarizeBy: none
+		sourceColumn: DateFinClient
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: 43d6fabf-c4b0-4bbe-9caf-a46e35e795ef
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genre
+		dataType: string
+		lineageTag: 9b94a978-7245-4698-b477-d6938d8dc629
+		summarizeBy: none
+		sourceColumn: Genre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Titre
+		dataType: string
+		lineageTag: ca21268c-1c63-4aee-947d-782c86fc64f0
+		summarizeBy: none
+		sourceColumn: Titre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prénom
+		dataType: string
+		lineageTag: 0930e3a5-4e21-44e6-b65b-6fb556bb2694
+		summarizeBy: none
+		sourceColumn: Prénom
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nom
+		dataType: string
+		lineageTag: 6df843f5-8927-45b5-b1f4-546e008274e4
+		summarizeBy: none
+		sourceColumn: Nom
+
+		annotation SummarizationSetBy = Automatic
+
+	column Adresse
+		dataType: string
+		lineageTag: 53daedd5-b7d9-43f5-81ef-91a19211a25d
+		summarizeBy: none
+		sourceColumn: Adresse
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ville
+		dataType: string
+		lineageTag: 9ff9fb1f-ca3e-44c1-80f8-5dacd5e44ec9
+		summarizeBy: none
+		sourceColumn: Ville
+
+		annotation SummarizationSetBy = Automatic
+
+	column Etat/Région
+		dataType: string
+		lineageTag: 3eaeaf4b-3823-4f86-b17c-936ff178bd62
+		summarizeBy: none
+		sourceColumn: Etat/Région
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodePostal
+		dataType: string
+		lineageTag: 3ad63d6c-a8fe-4b3e-b7bb-cc822722bfef
+		summarizeBy: none
+		sourceColumn: CodePostal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pays Clients'
+		dataType: string
+		lineageTag: 717be1ee-39c3-4b5f-a811-c18089d3a068
+		summarizeBy: none
+		sourceColumn: Pays Clients
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: 25643192-2f1d-4744-ad28-d8e9762682ea
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Métier
+		dataType: string
+		lineageTag: 32e9e3b8-3526-453d-b00a-19e9499dbe6e
+		summarizeBy: none
+		sourceColumn: Métier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Société
+		dataType: string
+		lineageTag: 93471597-ff2a-4e33-858f-10ece5ecb243
+		summarizeBy: none
+		sourceColumn: Société
+
+		annotation SummarizationSetBy = Automatic
+
+	column Véhicule
+		dataType: string
+		lineageTag: 83f80834-7be3-44d0-b488-e89d127ad4ce
+		summarizeBy: none
+		sourceColumn: Véhicule
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: eeac6242-7848-455c-adc5-0ec40912637b
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 38270ac7-d52d-4991-bc16-49ac2f841f34
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DimClients = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(pServer, pBaseDeDonnees, [Query="#(lf)SELECT [CustomerKey]#(lf)      --,[GeoAreaKey]#(lf)      ,[StartDT]#(lf)      ,[EndDT]#(lf)      ,[Continent]#(lf)      ,[Gender]#(lf)      ,[Title]#(lf)      ,[GivenName]#(lf)      --,[MiddleInitial]#(lf)      ,[Surname]#(lf)      ,[StreetAddress]#(lf)      ,[City]#(lf)      --,[State]#(lf)      ,[StateFull]#(lf)      ,[ZipCode]#(lf)      --,[Country]#(lf)      ,[CountryFull]#(lf)      ,[Birthday]#(lf)      --,[Age]#(lf)      ,[Occupation]#(lf)      ,[Company]#(lf)      ,[Vehicle]#(lf)      ,[Latitude]#(lf)      ,[Longitude]#(lf)  FROM [Contoso_10M].[dbo].[Customer]#(lf)  WHERE EndDT >= GETDATE() OR EndDT IS NULL", CreateNavigationProperties=false]),
+				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"CustomerKey", "IDClient"}, {"StartDT", "DateDebutClient"}, {"EndDT", "DateFinClient"}, {"Gender", "Genre"}, {"Title", "Titre"}, {"GivenName", "Prénom"}, {"Surname", "Nom"}, {"StreetAddress", "Adresse"}, {"City", "Ville"}, {"StateFull", "Etat/Région"}, {"ZipCode", "CodePostal"}, {"CountryFull", "Pays Clients"}}),
+				    #"Âge calculé" = Table.TransformColumns(#"Colonnes renommées",{{"Birthday", each DateTime.LocalNow() - _, type duration}}),
+				    #"Total calculé des années" = Table.TransformColumns(#"Âge calculé",{{"Birthday", each Duration.TotalDays(_) / 365, type number}}),
+				    #"Arrondi à l'entier inférieur" = Table.TransformColumns(#"Total calculé des années",{{"Birthday", Number.RoundDown, Int64.Type}}),
+				    #"Colonnes renommées1" = Table.RenameColumns(#"Arrondi à l'entier inférieur",{{"Birthday", "Age"}, {"Occupation", "Métier"}, {"Company", "Société"}, {"Vehicle", "Véhicule"}})
+				in
+				    #"Colonnes renommées1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

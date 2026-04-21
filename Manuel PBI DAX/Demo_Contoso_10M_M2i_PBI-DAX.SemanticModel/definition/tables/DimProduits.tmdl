@@ -1,0 +1,101 @@
+/// Liste des produits au catalogue
+table DimProduits
+	lineageTag: ad11087c-f697-4e29-9f99-edd81b9bde0a
+
+	column IDProduit
+		dataType: int64
+		formatString: 0
+		lineageTag: 2062a6ee-2551-4462-826f-21a93da90697
+		summarizeBy: none
+		sourceColumn: IDProduit
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProduitCode
+		dataType: string
+		lineageTag: cb785a42-6b69-4e38-bb7a-5a37145a5773
+		summarizeBy: none
+		sourceColumn: ProduitCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descritpion Produit'
+		dataType: string
+		lineageTag: 543c9321-4646-4e05-8397-5b898a116ad7
+		summarizeBy: none
+		sourceColumn: Descritpion Produit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fabricant
+		dataType: string
+		lineageTag: 4bef3513-bd05-407a-ae73-c82efe533766
+		summarizeBy: none
+		sourceColumn: Fabricant
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marque
+		dataType: string
+		lineageTag: eb6d9fae-6a3d-46c2-8a07-4d97feff6362
+		summarizeBy: none
+		sourceColumn: Marque
+
+		annotation SummarizationSetBy = Automatic
+
+	column Couleur
+		dataType: string
+		lineageTag: 747afb0a-f12d-4712-9327-cf9c7eacc51e
+		summarizeBy: none
+		sourceColumn: Couleur
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategorieCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 33358338-e740-4346-9c2a-ec330d225ae6
+		summarizeBy: none
+		sourceColumn: CategorieCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Catégorie
+		dataType: string
+		lineageTag: 34a892bd-cc80-400d-a4b2-8c6856a6ee76
+		summarizeBy: none
+		sourceColumn: Catégorie
+
+		annotation SummarizationSetBy = Automatic
+
+	column SousCategorieCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 4332be33-1948-4afe-8fd7-03159b126dc8
+		summarizeBy: none
+		sourceColumn: SousCategorieCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sous Catégorie'
+		dataType: string
+		lineageTag: 843f1af0-f53e-4b26-ae45-a9352c1b35ea
+		summarizeBy: none
+		sourceColumn: Sous Catégorie
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduits = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(pServer, pBaseDeDonnees, [Query="SELECT [ProductKey]#(lf)      ,[ProductCode]#(lf)      ,[ProductName]#(lf)      ,[Manufacturer]#(lf)      ,[Brand]#(lf)      ,[Color]#(lf)      ,[WeightUnit]#(lf)      ,[Weight]#(lf)      ,[UnitCost] AS CostEUR#(lf)      ,[UnitPrice] AS PriceEUR#(lf)      ,[CategoryCode]#(lf)      ,[CategoryName]#(lf)      ,[SubCategoryCode]#(lf)      ,[SubCategoryName]#(lf)  FROM [Contoso_10M].[dbo].[Product]#(lf)", CreateNavigationProperties=false]),
+				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"ProductKey", "IDProduit"}, {"ProductCode", "ProduitCode"}, {"ProductName", "Descritpion Produit"}, {"Manufacturer", "Fabricant"}, {"Brand", "Marque"}, {"Color", "Couleur"}, {"CostEUR", "CoutUnitEUR"}, {"PriceEUR", "PrixUnitEUR"}, {"CategoryCode", "CategorieCode"}, {"CategoryName", "Catégorie"}, {"SubCategoryCode", "SousCategorieCode"}, {"SubCategoryName", "Sous Catégorie"}}),
+				    #"Autres colonnes supprimées" = Table.SelectColumns(#"Colonnes renommées",{"IDProduit", "ProduitCode", "Descritpion Produit", "Fabricant", "Marque", "Couleur", "CategorieCode", "Catégorie", "SousCategorieCode", "Sous Catégorie"})
+				in
+				    #"Autres colonnes supprimées"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

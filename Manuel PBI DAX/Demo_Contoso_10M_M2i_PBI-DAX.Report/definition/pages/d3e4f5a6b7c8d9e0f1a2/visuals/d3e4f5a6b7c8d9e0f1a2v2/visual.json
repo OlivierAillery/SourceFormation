@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "d3e4f5a6b7c8d9e0f1a2v2",
+  "position": {
+    "x": 24,
+    "y": 80,
+    "z": 0,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "_Mesures.Total CA",
+              "nativeQueryRef": "Total CA"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

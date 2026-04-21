@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "aa00000000000000aa03",
+  "position": {
+    "x": 336,
+    "y": 80,
+    "z": 0,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "CA N-1"
+                }
+              },
+              "queryRef": "_Mesures.CA N-1",
+              "nativeQueryRef": "CA N-1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

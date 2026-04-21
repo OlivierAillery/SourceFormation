@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bb00000000000000bb04",
+  "position": {
+    "x": 856,
+    "y": 80,
+    "z": 0,
+    "height": 100,
+    "width": 400,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Marge Brute Var% N-1"
+                }
+              },
+              "queryRef": "_Mesures.Marge Brute Var% N-1",
+              "nativeQueryRef": "Marge Brute Var% N-1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

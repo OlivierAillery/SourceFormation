@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 104.63088471965023,
+            "y": 611.4636039049085
+          },
+          "nodeIndex": "DimClients",
+          "nodeLineageTag": "de8fc78e-cf52-49de-b32b-f8260f0ffa84",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 836.76464982287393,
+            "y": 568
+          },
+          "nodeIndex": "DimMagasins",
+          "nodeLineageTag": "2f4e0343-a388-42dc-b0a4-725f23d15851",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 114,
+            "y": 0
+          },
+          "nodeIndex": "DimProduits",
+          "nodeLineageTag": "ad11087c-f697-4e29-9f99-edd81b9bde0a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 457.57371181189035,
+            "y": 251.21912050315666
+          },
+          "nodeIndex": "FactVENTES",
+          "nodeLineageTag": "334c1fa7-f050-4ec6-a0be-327aef7d8e67",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 848.13376510322371,
+            "y": 0
+          },
+          "nodeIndex": "DimDates",
+          "nodeLineageTag": "c32a24f7-9e06-421a-baba-eb08b22b3702",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1226.1121577913896,
+            "y": 130.72508893980205
+          },
+          "nodeIndex": "CALCULS et MESURES",
+          "nodeLineageTag": "98f5ca33-9e82-4f87-9036-49c4f277bb9e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Toutes les tables",
+      "zoomValue": 79.553182037699813,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Toutes les tables",
+  "defaultDiagram": "Toutes les tables"
+}

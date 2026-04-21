@@ -1,0 +1,21 @@
+relationship AutoDetected_3caf6c4d-7270-4db0-8222-67097cce1e1c
+	fromColumn: FactVENTES.IDClient
+	toColumn: DimClients.IDClient
+
+relationship AutoDetected_c69efe90-584c-4bb1-ad02-3b092655652d
+	fromColumn: FactVENTES.IDMagasin
+	toColumn: DimMagasins.IDMagasin
+
+relationship AutoDetected_fbd36cc3-4014-434c-90ae-121360cfc418
+	fromColumn: FactVENTES.IDProduit
+	toColumn: DimProduits.IDProduit
+
+relationship 27d5535d-ae6a-b690-3292-24b544203260
+	fromColumn: FactVENTES.DateVente
+	toColumn: DimDates.Date
+
+relationship 75cccd63-b915-e79a-4849-4577005984f6
+	isActive: false
+	fromColumn: FactVENTES.DateLivraison
+	toColumn: DimDates.Date
+

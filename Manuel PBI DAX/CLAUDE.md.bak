@@ -1,0 +1,311 @@
+# CLAUDE.md — ConjuGrec
+
+Fichier de mémoire projet pour Claude Code. À lire au début de chaque session.
+
+---
+
+## Vue d'ensemble
+
+**ConjuGrec** est une PWA d'entraînement à la conjugaison grecque moderne.
+- URL production : **conjugrec.eu**
+- Stack : React 18 + Vite 6 + Tailwind 3 + Supabase (BDD + Auth + Realtime)
+- Langue par défaut de l'interface : **français**, avec support anglais (`profile.lang`)
+- Trois tiers d'abonnement : `free` → `helleniste` → `olympien`
+
+---
+
+## Commandes essentielles
+
+```bash
+npm run dev       # Dev local (Vite HMR)
+npm run build     # Build production → dist/
+npm run preview   # Prévisualisation du build
+```
+
+Déploiement : push sur `master` → déclenche le déploiement (hébergeur ovh).
+
+---
+
+## Architecture
+
+### Pas de router client
+
+Toute la navigation est gérée par `useState` dans `App.jsx`.
+Les pages sont des rendus conditionnels — **ne pas introduire React Router**.
+
+### Fichiers racine (hors src/)
+
+`App.jsx`, `main.jsx`, `index.css`, `verbData.js`, `index.html` sont **à la racine du dépôt**, pas dans `src/`. C'est voulu (`root: '.'` dans `vite.config.js`).
+
+### Structure src/
+
+```
+src/
+├── components/
+│   ├── admin/          AdminAjouterVerbe, AdminNotifs, AdminPhrases, AdminVerbes
+│   ├── game/           ConjuGrec (orchestrateur), GameScreenMode/Play/Summary, etc.
+│   ├── notifications/  NotificationBell, NotificationPanel
+│   ├── AdminScreen.jsx         Shell admin (tabs + toast)
+│   ├── AuthScreen.jsx          Auth Supabase
+│   ├── ConjugaisonScreen.jsx   Tables de conjugaison (page Verbes)
+│   ├── GrammairePage.jsx       Guide grammatical des 9 temps
+│   ├── ProfileScreen.jsx       Profil + préférences utilisateur
+│   ├── ShopScreen.jsx          Boutique jokers/boosts
+│   ├── TierIcon.jsx            Icône tier inline
+│   └── VerbSelectionScreen.jsx Sélection verbes (tier Olympien uniquement)
+├── constants/
+│   ├── game.js         Seuils, noms items shop
+│   ├── greek.js        Pronoms, ordre canonique, extractGreek/extractFrench
+│   ├── tiers.js        TIER_INFO, FREE_LIMIT=30, HELLENISTE_LIMIT=50, MEDALS
+│   └── verbGroups.js   5 groupes sémantiques + VERB_GROUP_MAP + DEFAULT_GROUP
+├── hooks/
+│   ├── useAuth.js          Auth + profil utilisateur
+│   ├── useGameData.js      Agrégateur (sentences, verbAccess, inventaire, compteurs)
+│   ├── useNotifications.js Realtime notifications
+│   ├── useShop.js          Items boutique + purchase
+│   └── useVerbsData.js     Verbes Supabase — CACHE MODULE-LEVEL
+└── lib/
+    ├── notificationHelpers.js  createNotification / hasNotification / hasRecentNotification
+    └── supabase.js             Client (VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY)
+```
+
+---
+
+## Base de données Supabase
+
+### Tables principales
+
+| Table | Rôle |
+|-------|------|
+| `users` | Profils (username, tier, stats, pref_tenses, pref_verbs, avatar_style, lang, is_admin) |
+| `verbs` | Verbes avec conjugaisons JSONB (verb_index, infinitive_el/fr/en, conjugations, verb_group, is_active, is_irregular) |
+| `verb_access` | Droits d'accès par tier (verb_index, incl_free, incl_helleniste) |
+| `sentences` | Phrases exercices (template, subject, verb_index, meaning, meaning_en, is_active) |
+| `notifications` | Notifs in-app (user_id, type, title, body, title_en, body_en, is_read, created_at) |
+| `user_inventory` | Jokers + boosts achetés (user_id, shop_item_id) |
+| `shop_items` | Catalogue boutique (name, price_branches, description) |
+
+### Colonnes users importantes
+
+- `pref_tenses integer[]` — temps préférés (NULL = tous)
+- `pref_verbs integer[]` — verbes préférés Olympien (NULL = tous)
+- `subscription_tier` — `'free'` | `'helleniste'` | `'olympien'`
+- `is_admin boolean` — accès à l'onglet Admin
+
+### RPCs Supabase
+
+| Fonction | Usage |
+|----------|-------|
+| `send_notification_to_all(p_type, p_title, p_body, p_title_en?, p_body_en?)` | Broadcast à tous les users |
+| `send_notification_to_users(p_user_ids uuid[], p_type, p_title, p_body, p_title_en?, p_body_en?)` | Envoi ciblé (IDs ou tier résolu côté client) |
+| `get_leaderboard(lim)` | Top N tous temps |
+| `get_leaderboard_week(lim)` | Top N semaine en cours |
+
+Toutes les RPCs sont `SECURITY DEFINER` et vérifient `is_admin = true`.
+
+---
+
+## Système de verbes
+
+### Cache module-level (`useVerbsData`)
+
+`useVerbsData.js` maintient un cache **module-level** (`_cache`) partagé entre tous les composants montés. Le hook ne filtre **jamais** par `is_active` — c'est aux consommateurs de le faire.
+
+```js
+// ✅ Correct — filtrer à la consommation
+const activeVerbs = verbsList.filter(v => v.is_active);
+
+// ❌ Interdit — ne pas ajouter .eq('is_active', true) dans useVerbsData
+// → briserait l'admin qui doit voir TOUS les verbes
+```
+
+**Invalider le cache après mutation admin :**
+```js
+import { invalidateVerbsCache } from '../hooks/useVerbsData';
+invalidateVerbsCache(); // force refetch sur tous les composants montés
+```
+
+### Champs d'un verbe
+
+```js
+{
+  verb_index    : number,
+  infinitive    : "αγαπάω (aimer)",  // format compat verbData.js
+  infinitive_el : "αγαπάω",
+  infinitive_fr : "aimer",
+  infinitive_en : "to love",
+  conjugations  : { present: { εγώ: "αγαπάω", εσύ: "αγαπάς", … }, … },
+  verb_group    : 'essentiels' | 'vie_quotidienne' | 'interaction' | 'action_etat' | 'autre',
+  is_active     : boolean,
+  is_irregular  : boolean,
+}
+```
+
+### Tiers et accès verbes
+
+| Tier | Verbes | Temps |
+|------|--------|-------|
+| `free` | 30 premiers (`FREE_LIMIT`) via `verb_access.incl_free` | 3 (present, aorist, future_simple) |
+| `helleniste` | 50 (`HELLENISTE_LIMIT`) via `verb_access.incl_helleniste` | 9 (tous) |
+| `olympien` | Tous les verbes actifs (+ filtre `pref_verbs` si défini) | 9 (tous) |
+
+---
+
+## Système de jeu
+
+### Modes et difficultés
+
+- **Modes** : `saisie` (saisie libre) et `qcm` (QCM 4 choix)
+- **Difficultés** : `facile` (pénalité 0.25), `difficile` (0.5), `heros` (1.0)
+
+### Monnaie et récompenses
+
+```
+Bonnes réponses / streaks → 🌿 Rameaux
+10 Rameaux = 1 🌳 Olivier
+Tous les 10 Oliviers = 1 🐐 Chèvre
+```
+
+- Seuils `BRANCH_THRESHOLD` : `{ saisie: 5, qcm: 10 }` points → 1 rameau
+- Seuils `STREAK_THRESHOLD` : `{ saisie: 4, qcm: 10 }` streak → 1 rameau
+
+### Génération de questions (`ConjuGrec.jsx`)
+
+Ordre des filtres dans `generateQuestion` :
+1. Filtre tier (`verb_access`) pour Free et Helléniste
+2. Filtre `is_active`
+3. Filtre `pref_verbs` pour Olympien (si défini)
+4. Filtre temps disponibles (`allowedTenses` = intersection tier + `pref_tenses`)
+5. Au moins 2 temps renseignés requis pour générer une question
+
+---
+
+## Design system Tailwind
+
+### Couleurs `greek.*`
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `greek-night` | `#1A3B6E` | Header, fond sombre, boutons primaires |
+| `greek-blue` | `#2856A8` | Bleu moyen |
+| `greek-sky` | `#E4EBF8` | Bleu très clair, bordures, séparateurs |
+| `greek-ouzo` | `#C8A03A` | Or (monnaie, accents) |
+| `greek-cream` | `#F8F3E8` | Fond de page |
+| `greek-amber` | `#B8862A` | Or hover |
+| `greek-stone` | `#6B7A9A` | Texte secondaire |
+| `greek-correct` | `#2A7A50` | Vert (bonne réponse, coché) |
+| `greek-wrong` | `#B84A38` | Rouge terracotta (mauvaise réponse) |
+
+### Polices
+
+- `font-display` → **Cinzel** (titres, verbes grecs)
+- `font-body` → **Source Sans 3** (texte courant)
+
+### Breakpoints
+
+- `xs: 380px` (ajout custom)
+- `sm: 640px`, `md: 768px`, `lg: 1024px` (Tailwind par défaut)
+
+### Ombres custom
+
+- `shadow-card` — ombre légère pour les cartes
+- `shadow-card-hover` — ombre plus prononcée au survol
+
+---
+
+## Conventions de code
+
+### Composants
+
+- Fichiers `.jsx` PascalCase
+- Un composant principal `export default` par fichier
+- Sous-composants utilitaires définis dans le même fichier si petits (ex: `StatCard`, `TenseTable`)
+- Props bilingues : toujours passer `lang` (string `'fr'` | `'en'`) et utiliser `lang === 'en' ? '...' : '...'`
+
+### Tailwind dans JSX
+
+- Toujours `className` (pas de CSS Modules)
+- Chaînes longues : template literal multi-lignes avec backticks
+- Transitions : `transition-colors` ou `transition-all`
+
+### Supabase
+
+- Toujours utiliser `supabase` importé depuis `'../lib/supabase'`
+- Les mutations admin doivent appeler `invalidateVerbsCache()` après modification des verbes
+- JSONB partiel : utiliser l'opérateur `||` pour merge (ex: `conjugations = conjugations || '{"key": value}'`)
+
+### État et hooks
+
+- `useMemo` pour tout calcul dérivé lourd (listes filtrées, compteurs)
+- Les hooks `useGameData`, `useVerbsData` sont des singletons applicatifs — ne pas dupliquer la logique
+
+---
+
+## Notifications
+
+### Types existants
+
+| Type | Déclencheur |
+|------|------------|
+| `welcome` | Première connexion |
+| `inactivity` | >7 jours sans jouer (max 1/semaine) |
+| `branch_milestone` | Paliers 10, 25, 50, 100, 200, 500 rameaux |
+| `streak` | Série de 10 bonnes réponses consécutives |
+| `perfect_game` | Session sans faute |
+| `purchase` | Achat boutique |
+| `feature` | Annonce admin |
+| `new_verbs` | Nouveaux verbes admin |
+| `maintenance` | Maintenance admin |
+| `promo` | Promo admin |
+
+### Ciblage admin (AdminNotifs)
+
+3 modes disponibles :
+- **Tous** → RPC `send_notification_to_all`
+- **Par tier** → résolution IDs côté client + RPC `send_notification_to_users`
+- **Liste CSV** → extraction UUID par regex + RPC `send_notification_to_users`
+
+---
+
+## Groupes sémantiques de verbes
+
+Définis dans `src/constants/verbGroups.js` :
+
+| Clé | Label |
+|-----|-------|
+| `essentiels` | Essentiels |
+| `vie_quotidienne` | Vie Quotidienne |
+| `interaction` | Interaction & Pensée |
+| `action_etat` | Action & État |
+| `autre` | Autre (défaut) |
+
+---
+
+## PWA
+
+- Service Worker : `/sw.js` (enregistré dans `main.jsx`)
+- Manifest : `/public/manifest.json`
+- Icônes : `logo-192.png` et `logo-512.png` dans `/public/`
+- `theme_color`: `#1A3B6E` (greek-night), `background_color`: `#F8F3E8` (greek-cream)
+
+---
+
+## Variables d'environnement
+
+```env
+VITE_SUPABASE_URL=https://vqprduiqpydvmrxukexf.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxcHJkdWlxcHlkdm1yeHVrZXhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTYxMDgsImV4cCI6MjA5MDg3MjEwOH0.bZWR2PDHZcrKDE6HSSuOpW5oC9dVoxhXINtOaNxJJCo
+```
+
+---
+
+## Points d'attention / pièges connus
+
+1. **`useVerbsData` ne filtre pas `is_active`** — intentionnel pour l'admin. Filtrer à la consommation.
+2. **Fichiers racine** — `App.jsx`, `verbData.js`, etc. sont à la **racine du dépôt**, pas dans `src/`.
+3. **Pas de React Router** — ne pas en introduire.
+4. **Cache invalide après mutation** — toujours appeler `invalidateVerbsCache()` dans l'admin après add/update verbe.
+5. **pref_verbs Olympien uniquement** — la sélection de verbes (`VerbSelectionScreen`) ne s'affiche que pour le tier `olympien`.
+6. **RPC `send_notification_to_users`** — doit exister dans Supabase (SQL fourni séparément, voir session de création).
+
+---

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Demo_Contoso_10M_M2i_PBI-DAX"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "688bebc1-440d-4ae5-8713-d26bf97ad10a"
+  }
+}

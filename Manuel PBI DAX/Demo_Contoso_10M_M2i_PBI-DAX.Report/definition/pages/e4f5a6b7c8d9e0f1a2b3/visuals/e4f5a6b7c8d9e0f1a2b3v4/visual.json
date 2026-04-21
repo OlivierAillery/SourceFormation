@@ -1,0 +1,131 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "e4f5a6b7c8d9e0f1a2b3v4",
+  "position": {
+    "x": 24,
+    "y": 196,
+    "z": 0,
+    "height": 480,
+    "width": 820,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduits"
+                    }
+                  },
+                  "Property": "Cat\u00e9gorie"
+                }
+              },
+              "queryRef": "DimProduits.Cat\u00e9gorie",
+              "nativeQueryRef": "Cat\u00e9gorie",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "_Mesures.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "CA % Total"
+                }
+              },
+              "queryRef": "_Mesures.CA % Total",
+              "nativeQueryRef": "CA % Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "CA % S\u00e9lection"
+                }
+              },
+              "queryRef": "_Mesures.CA % S\u00e9lection",
+              "nativeQueryRef": "CA % S\u00e9lection"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Rang Cat\u00e9gorie CA"
+                }
+              },
+              "queryRef": "_Mesures.Rang Cat\u00e9gorie CA",
+              "nativeQueryRef": "Rang Cat\u00e9gorie CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Libell\u00e9 Niveau"
+                }
+              },
+              "queryRef": "_Mesures.Libell\u00e9 Niveau",
+              "nativeQueryRef": "Libell\u00e9 Niveau"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "CALCULS et MESURES"
+                  }
+                },
+                "Property": "Total CA"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

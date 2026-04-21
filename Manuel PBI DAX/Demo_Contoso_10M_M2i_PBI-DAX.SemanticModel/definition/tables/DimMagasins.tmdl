@@ -1,0 +1,102 @@
+/// Liste des magasins physique et web
+table DimMagasins
+	lineageTag: 2f4e0343-a388-42dc-b0a4-725f23d15851
+
+	column IDMagasin
+		dataType: int64
+		formatString: 0
+		lineageTag: a4e51ebe-106a-4fc4-bca5-74fbd6ca4dd5
+		summarizeBy: none
+		sourceColumn: IDMagasin
+
+		annotation SummarizationSetBy = Automatic
+
+	column MagasinCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 76d2fa7b-2424-4213-ba6e-e62b45445e3f
+		summarizeBy: none
+		sourceColumn: MagasinCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodePays
+		dataType: string
+		lineageTag: 80122a63-c296-4226-90a0-93bd889db613
+		summarizeBy: none
+		sourceColumn: CodePays
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pays Magasins'
+		dataType: string
+		lineageTag: 3eb29e64-ab43-4a0f-b6f4-4e00cba3bf1b
+		summarizeBy: none
+		sourceColumn: Pays Magasins
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Etat Région Magasin'
+		dataType: string
+		lineageTag: 5c3309f8-196e-43fe-8845-1a691c4cad59
+		summarizeBy: none
+		sourceColumn: Etat Région Magasin
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Ouverture'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 26806631-1ea4-4fff-933f-9693cccfc914
+		summarizeBy: none
+		sourceColumn: Date Ouverture
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Fermeture'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6b47526f-a82d-41a7-adf1-7b380f5edfb4
+		summarizeBy: none
+		sourceColumn: Date Fermeture
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nom Magasin'
+		dataType: string
+		lineageTag: 4306a5e0-cc7f-486e-8116-28b38d662207
+		summarizeBy: none
+		sourceColumn: Nom Magasin
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Surface en m2'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6aeeb0b5-86e9-4883-bcdb-305a2678de4f
+		summarizeBy: none
+		sourceColumn: Surface en m2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Statut
+		dataType: string
+		lineageTag: a4fb3b26-1559-46e9-a42b-cb0d900d55e8
+		summarizeBy: none
+		sourceColumn: Statut
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimMagasins = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(pServer, pBaseDeDonnees, [Query="SELECT [StoreKey]#(lf)      ,[StoreCode]#(lf)      --,[GeoAreaKey]#(lf)      ,[CountryCode]#(lf)      ,[CountryName]#(lf)      ,[State]#(lf)      ,[OpenDate]#(lf)      ,[CloseDate]#(lf)      ,[Description]#(lf)      ,[SquareMeters]#(lf)      ,[Status]#(lf)  FROM [Contoso_10M].[dbo].[Store]#(lf)  WHERE [CloseDate] IS NULL#(lf)   OR [CloseDate] >= DATEADD(YEAR, -10, GETDATE())--élimine les magasins fermés il y a plus de 10 ans", CreateNavigationProperties=false]),
+				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"StoreKey", "IDMagasin"}, {"StoreCode", "MagasinCode"}, {"CountryCode", "CodePays"}, {"CountryName", "Pays Magasins"}, {"State", "Etat Région Magasin"}, {"OpenDate", "Date Ouverture"}, {"CloseDate", "Date Fermeture"}, {"Description", "Nom Magasin"}, {"SquareMeters", "Surface en m2"}, {"Status", "Statut"}})
+				in
+				    #"Colonnes renommées"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

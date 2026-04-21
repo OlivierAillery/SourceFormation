@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "cc00000000000000cc03",
+  "position": {
+    "x": 648,
+    "y": 80,
+    "z": 2,
+    "height": 100,
+    "width": 608,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Quantite Var% N-1"
+                }
+              },
+              "queryRef": "_Mesures.Quantite Var% N-1",
+              "nativeQueryRef": "Quantite Var% N-1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

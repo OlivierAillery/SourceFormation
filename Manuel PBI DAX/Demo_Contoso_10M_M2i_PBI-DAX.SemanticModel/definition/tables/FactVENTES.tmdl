@@ -1,0 +1,124 @@
+/// Table des ventes issues de la fusion Orders et OrdersRows et fusion avec les taux de change et conversion en EUR
+table FactVENTES
+	lineageTag: 334c1fa7-f050-4ec6-a0be-327aef7d8e67
+
+	column IDFacture
+		dataType: int64
+		formatString: 0
+		lineageTag: 94f212fe-dfde-4b66-92e7-4c7bcae7d006
+		summarizeBy: sum
+		sourceColumn: IDFacture
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDClient
+		dataType: int64
+		formatString: 0
+		lineageTag: 62f4f2b1-38f1-4746-af3e-ce5d4b3ba382
+		summarizeBy: none
+		sourceColumn: IDClient
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDMagasin
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e486868-35f7-429c-acff-85e8a2b313d6
+		summarizeBy: none
+		sourceColumn: IDMagasin
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateVente
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ebb7cb7e-e459-419d-b6b0-e6712dee2d18
+		summarizeBy: none
+		sourceColumn: DateVente
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateLivraison
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d9cd4d5b-73bf-4662-a9a8-7f67dd784f41
+		summarizeBy: none
+		sourceColumn: DateLivraison
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDProduit
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f48741a-2203-49ac-8015-0ac07263a1a4
+		summarizeBy: none
+		sourceColumn: IDProduit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantité
+		dataType: int64
+		formatString: 0
+		lineageTag: 13d3cbdc-adc0-4463-abf0-9f9149cf5d46
+		summarizeBy: sum
+		sourceColumn: Quantité
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCostEUR
+		dataType: decimal
+		lineageTag: 6a30e54a-fec9-4f3b-bff7-08d7d0ed4591
+		summarizeBy: sum
+		sourceColumn: UnitCostEUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NetPriceEUR
+		dataType: decimal
+		lineageTag: a3a672b8-00d0-4b6a-8046-a104f2edd46c
+		summarizeBy: sum
+		sourceColumn: NetPriceEUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitPriceEUR
+		dataType: decimal
+		lineageTag: 75e74256-8b56-48cb-b8e7-15cb636d1237
+		summarizeBy: sum
+		sourceColumn: UnitPriceEUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Remise
+		dataType: decimal
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: 60ec4a0d-283f-46e1-85a2-839e5d5c5278
+		summarizeBy: sum
+		sourceColumn: Remise
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	partition FactVENTES = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(pServer, pBaseDeDonnees, [Query="SELECT tabA.[OrderKey]#(lf)      ,tabA.[CustomerKey]#(lf)      ,tabA.[StoreKey]#(lf)      ,TRY_CAST(tabA.[OrderDate] AS Date) AS OrderDate#(lf)      ,TRY_CAST(tabA.[DeliveryDate] AS Date) AS DeliveryDate#(lf)      --,tabA.[CurrencyCode]#(lf)      --,tabB.[Exchange]#(lf)      ,tabC.[ProductKey]#(lf)      ,tabC.[Quantity]#(lf)      --,tabC.[UnitPrice]#(lf)      --,tabC.[NetPrice]#(lf)      --,tabC.[UnitCost]#(lf)      ,tabC.[UnitCost]*tabB.[Exchange] AS UnitCostEUR#(lf)      ,tabC.[NetPrice]*tabB.[Exchange] AS NetPriceEUR#(lf)      ,tabC.[UnitPrice]*tabB.[Exchange] AS UnitPriceEUR#(lf)  FROM [Contoso_10M].[dbo].[Orders] AS tabA#(lf)  --Jointure avec la table de change pour récupérer le taux de change à la date de la commande#(lf)  INNER JOIN CurrencyExchange AS TabB #(lf)  ON  tabA.[CurrencyCode]=tabB.FromCurrency COLLATE French_CI_AS#(lf)  AND tabA.OrderDate = tabB.Date#(lf)  AND tabB.ToCurrency = 'EUR' --On ne garde que la conversion vers euro#(lf)    --Jointure externe gauche pour récupérer les lignes de commande#(lf)  LEFT OUTER JOIN [Contoso_10M].[dbo].[OrderRows] AS tabC#(lf)    ON tabA.[OrderKey] = tabC.[OrderKey]", CreateNavigationProperties=false]),
+				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"OrderKey", "IDFacture"}, {"CustomerKey", "IDClient"}, {"StoreKey", "IDMagasin"}, {"OrderDate", "DateVente"}, {"DeliveryDate", "DateLivraison"}, {"ProductKey", "IDProduit"}, {"Quantity", "Quantité"}}),
+				    #"Soustraction insérée" = Table.AddColumn(#"Colonnes renommées", "Soustraction", each [UnitPriceEUR] - [NetPriceEUR], type number),
+				    #"Colonnes renommées1" = Table.RenameColumns(#"Soustraction insérée",{{"Soustraction", "Remise"}}),
+				    #"Type modifié" = Table.TransformColumnTypes(#"Colonnes renommées1",{{"UnitCostEUR", Currency.Type}, {"NetPriceEUR", Currency.Type}, {"UnitPriceEUR", Currency.Type}, {"Remise", Currency.Type}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

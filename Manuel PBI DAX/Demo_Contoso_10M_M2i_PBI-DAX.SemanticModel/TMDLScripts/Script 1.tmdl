@@ -1,0 +1,234 @@
+createOrReplace
+
+    /// Table de dates avec tous les jours fériés, fixes et mobiles
+    table MonCalendrierJrsFeries
+        lineageTag: c32a24f7-9e06-421a-baba-eb08b22b3702
+        dataCategory: Time
+
+        /// Date de référence, clé de la table de calendrier. Générée par CALENDARAUTO() sur la plage de dates du modèle de données.
+        column Date
+            isKey
+            formatString: Long Date
+            lineageTag: 2a06dbc9-9de8-4ae3-9508-84e283787d55
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Date]
+
+            annotation SummarizationSetBy = Automatic
+
+            annotation UnderlyingDateTimeDataType = Date
+
+        /// Année calendaire de la date (ex. 2024).
+        column Année
+            formatString: 0
+            lineageTag: 3aa653d4-efbe-4b44-b03d-ce815cfc0c31
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Année]
+
+            annotation SummarizationSetBy = User
+
+        /// Semestre de l'année : 'Semestre 1' (T1-T2) ou 'Semestre 2' (T3-T4).
+        column Semestre
+            lineageTag: 05b1f664-97d6-48d5-a2dd-7a2259ec6d01
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Semestre]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Concaténation de l'année et du semestre pour le tri et le regroupement (ex. '2024-S1').
+        column 'Année - Semestre'
+            lineageTag: fa073309-fb01-4b36-ba0c-11d91ac14254
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Année - Semestre]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Trimestre de l'année, format 'AAAA-Tn' (ex. '2024-T1').
+        column Trimestre
+            lineageTag: fd76b821-0d28-4a88-867c-3947beb48c46
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Trimestre]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Année et mois au format 'YYYY-MM', utilisé comme clé de tri chronologique (ex. '2024-03').
+        column Année-Mois
+            lineageTag: 0914caff-3e5f-4eb0-838f-8ceb32cdd356
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Année-Mois]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Nom complet du mois en toutes lettres (ex. 'mars'). Trié par la colonne MoisNum.
+        column Mois
+            lineageTag: 8a2e7ae0-5573-4bf1-9a53-c4c816a51bb9
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Mois]
+            sortByColumn: MoisNum
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Numéro de mois sur 2 caractères avec zéro initial, au format texte (ex. '03').
+        column MoisNum
+            lineageTag: e688c5fb-0411-4ceb-ae7b-01face78cf1f
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [MoisNum]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Mois abrégé et année sur 2 chiffres pour l'affichage dans les visuels (ex. 'mars-24'). Trié par la colonne Année-Mois.
+        column Mois-Année
+            lineageTag: 544b47d0-162d-41a9-89a8-c06305152031
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Mois-Année]
+            sortByColumn: Année-Mois
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Année et numéro de semaine ISO 8601 au format 'AAAA - Snn' (ex. '2024 - S12'). Gère les cas particuliers des premiers jours de janvier et des derniers jours de décembre appartenant à la semaine de l'année adjacente (paramètre WEEKNUM = 21).
+        column 'Semaine ISO'
+            lineageTag: 506b93ea-e639-4a11-959a-14aa5dbff779
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Semaine ISO]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Nom complet du jour de la semaine (ex. 'lundi'). Trié par la colonne Num Jour Semaine.
+        column 'Jour Semaine'
+            lineageTag: e24ef61d-1e5d-46f7-b28d-02890e71686f
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Jour Semaine]
+            sortByColumn: 'Num Jour Semaine'
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Numéro du jour de la semaine : 1 = lundi, 7 = dimanche (paramètre WEEKDAY = 2).
+        column 'Num Jour Semaine'
+            formatString: 0
+            lineageTag: 9d33a3d8-1c4d-4b6d-a649-e92193c399af
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Num Jour Semaine]
+
+            annotation SummarizationSetBy = User
+
+        /// Date au format numérique texte AAAAMMJJ (ex. '20240315'), utile pour le tri alphanumérique.
+        column 'Date Nombre'
+            lineageTag: 0d229452-3bd4-49eb-9b5c-03053e6b3a61
+            summarizeBy: none
+            isNameInferred
+            sourceColumn: [Date Nombre]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Indicateur jour de semaine : 1 si lundi à vendredi, 0 si samedi ou dimanche. Peut être additionné pour compter des jours ouvrés (hors jours fériés).
+        column EstJourSem
+            formatString: 0
+            lineageTag: 38b7eae7-614e-4a2c-b414-645e855373a0
+            summarizeBy: sum
+            isNameInferred
+            sourceColumn: [EstJourSem]
+
+            annotation SummarizationSetBy = Automatic
+
+        /// Date du lundi de Pâques pour l'année de la ligne. Calculée par l'algorithme de Butcher (formule MOD sur base DATE(1900,1,1)).
+        column 'Date Lun Paques' = DATE(1900,1,1)+(ROUND(DATE(MonCalendrierJrsFeries[Année],4,MOD(234-11*MOD(MonCalendrierJrsFeries[Année],19),30))/7,0)*7-6)-1
+            formatString: Long Date
+            lineageTag: 30ea4efc-333b-4d1a-a574-1e5739b31dae
+            summarizeBy: none
+
+            annotation SummarizationSetBy = Automatic
+
+            annotation UnderlyingDateTimeDataType = Date
+
+        /// Date du dimanche de Pentecôte : lundi de Pâques + 48 jours.
+        column 'Date Dim Pentecote' = MonCalendrierJrsFeries[Date Lun Paques]+48
+            formatString: Long Date
+            lineageTag: d8e2019f-c2a2-4ccb-81e8-f20788a25190
+            summarizeBy: none
+
+            annotation SummarizationSetBy = Automatic
+
+            annotation UnderlyingDateTimeDataType = Date
+
+        /// Date du lundi de Pentecôte : lundi de Pâques + 49 jours.
+        column 'Date Lundi Pentecote' = MonCalendrierJrsFeries[Date Lun Paques]+49
+            formatString: Long Date
+            lineageTag: e6b38c25-c1f3-4647-82c5-925686546d1c
+            summarizeBy: none
+
+            annotation SummarizationSetBy = Automatic
+
+            annotation UnderlyingDateTimeDataType = Date
+
+        /// Date du jeudi de l'Ascension : lundi de Pâques + 38 jours.
+        column 'Date Jeu Ascension' = MonCalendrierJrsFeries[Date Lun Paques]+38
+            formatString: Long Date
+            lineageTag: d9759b6d-c9e8-474b-a5ca-341b529da94d
+            summarizeBy: none
+
+            annotation SummarizationSetBy = Automatic
+
+            annotation UnderlyingDateTimeDataType = Date
+
+        /// Indicateur jour ouvré (1) ou non ouvré (0). Exclut : les week-ends (Num Jour Semaine = 6 ou 7), les jours fériés fixes français (1er jan., 1er mai, 8 mai, 14 juil., 15 août, 1er nov., 11 nov., 25 déc.) et les jours fériés mobiles (lundi de Pâques, jeudi de l'Ascension, dimanche et lundi de Pentecôte).
+        column JoursOuvres = ```
+                SWITCH (FORMAT (MonCalendrierJrsFeries[Date], "dd/mm"), 
+                                        "01/01",0, //Jour de lan
+                                        "01/05",0, //Fete du travail
+                                        "08/05",0, //Armistice 39-45                                                
+                                        "14/07",0, //Fete nationale
+                                        "15/08",0, //Assomption
+                                        "01/11",0, //Toussaint
+                                        "11/11",0, //Armistice 14-18
+                                        "25/12",0, //Noel
+                               SWITCH(VALUE(MonCalendrierJrsFeries[Date]),
+                               VALUE(MonCalendrierJrsFeries[Date Lun Paques]),0, //Lundi de paques
+                               VALUE(MonCalendrierJrsFeries[Date Jeu Ascension]),0, //Jeudi de l'Ascension
+                               VALUE(MonCalendrierJrsFeries[Date Dim Pentecote]),0, //Dimanche de Pentecote
+                               VALUE(MonCalendrierJrsFeries[Date Lundi Pentecote]),0, //Lundi de Pentecote
+                               SWITCH(MonCalendrierJrsFeries[Num Jour Semaine], //Test du WE (sam dim)
+                                            6,0,
+                                            7,0,1))) //Jour Ferie=0, Non Ferie=1
+                ```
+            formatString: 0
+            lineageTag: 4d432d32-a052-42cf-aa54-981ed189a967
+            summarizeBy: sum
+
+            annotation SummarizationSetBy = Automatic
+
+        partition MonCalendrierJrsFeries = calculated
+            mode: import
+            source =
+                    ADDCOLUMNS( //Fonction pour ajouter des colonnes à une table
+                        CALENDARAUTO() ,//Fonction de calendrier automatique basée sur le modèle de données
+                    "Année", YEAR([Date]) , //Création de la colonne Année
+                    "Semestre", IF( QUARTER([Date])>2 , "Semestre 2" , "Semestre 1" ) ,   //Création de la colonne Semestre (Si le trimestre est sup à 2 alors Semestre 2, sinon Semestre 1)
+                    "Année - Semestre", IF( QUARTER([Date])>2 , //Création de la colonne Année Semestre
+                    YEAR([Date]) & "-S2" , //Année 4 chiffres et -S2
+                    YEAR([Date]) & "-S1" ) , //Année 4 chiffres et -S1
+                    "Trimestre" , YEAR( [Date] ) & "-T" & QUARTER([Date]) , //création de la colonne Trimestre avec préfixe T
+                    "Année-Mois", FORMAT([Date] , "YYYY-MM") , //Année à 4 chiffres (YYYY) et mois à 2 chiffres (MM)
+                    "Mois" , FORMAT([Date] , "MMMM") , //Mois en toute lettre (MMMM)
+                    "MoisNum" , FORMAT([Date] , "MM") , //Mois à 2 chiffres (MM)
+                    "Mois-Année" , FORMAT([Date] , "MMM-YY") , //Mois en lettre abrégé (MMM) et année à 2 chiffres (YY)
+                    "Semaine ISO", SWITCH( TRUE(),
+                    MONTH([Date]) = 1 && WEEKNUM([Date],21) > 51 , YEAR([Date])-1 , //Si les premiers jours de janvier sont dans la dernière semaine de l'année précédente, alors -1 sur année
+                    MONTH([Date]) = 12 && WEEKNUM([Date],21) = 1 , YEAR([Date])+1 , //Si derniers jours de décembre sont dans la première semaine de l'année suivante, alors année +1
+                    YEAR([Date]) )//sinon on garde juste l'année et...
+                    & " - S" & FORMAT(WEEKNUM([Date] , 21) ,"00"), //le numéro de semaine ISO (Europe) à 2 chiffres (param 21 pour le calcul ISO)
+                    "Jour Semaine" , FORMAT([Date] , "DDDD") , //Nom du jour de la semaine (DDDD = nom complet, DDD = abrégé)
+                    "Num Jour Semaine" , WEEKDAY([Date] , 2) , //Numéro du jour de la semaine (paramètre 2 pour une semaine commencant le lundi)
+                    "Date Nombre" , FORMAT([Date] , "YYYYMMDD") , //Date sous forme de nombre entier
+                    "EstJourSem" , IF( WEEKDAY([Date] , 2) > 5 , 0 , 1 ) //Si le jour est en semaine (lundi-vendredi) alors 1 sinon 0 : permet les additions en jours ouvrés (hors WE)
+                    )//Fin de la fonction ADDCOLUMNS

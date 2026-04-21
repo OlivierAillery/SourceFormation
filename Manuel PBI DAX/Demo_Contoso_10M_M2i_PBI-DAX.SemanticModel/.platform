@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Demo_Contoso_10M_M2i_PBI-DAX"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ff5886c6-af64-4fdf-a5d8-1784f8bfe574"
+  }
+}

@@ -1,0 +1,405 @@
+/// Table centralisee des mesures DAX - Formation PBI-DAX M2i
+table 'CALCULS et MESURES'
+	lineageTag: 98f5ca33-9e82-4f87-9036-49c4f277bb9e
+
+	/// Chiffre d'Affaires total : somme du prix net EUR. Mesure de base pour tous les calculs financiers.
+	measure 'Total CA' =
+			// Total CA : somme des prix nets EUR apres remise
+			SUM( FactVENTES[NetPriceEUR] )
+		formatString: #,##0.00 €
+		displayFolder: 01 - Base
+		lineageTag: e29021bc-54d1-4582-a5c4-a8ec664d9c72
+
+	/// Cout Total : UnitCostEUR x Quantite, itere ligne par ligne via SUMX.
+	measure 'Cout Total' =
+			// Cout Total : cout unitaire x quantite (SUMX car UnitCostEUR est unitaire)
+			SUMX(
+			    FactVENTES,
+			    FactVENTES[UnitCostEUR] * FactVENTES[Quantité]
+			)
+		formatString: #,##0.00 €
+		displayFolder: 01 - Base
+		lineageTag: 545f45ae-08ea-4265-ba00-c2215d23ed0a
+
+	/// Marge Brute : CA moins Cout Total. Indicateur de rentabilite avant frais fixes.
+	measure 'Marge Brute' =
+			// Marge Brute = Total CA - Cout Total
+			[Total CA] - [Cout Total]
+		formatString: #,##0.00 €
+		displayFolder: 01 - Base
+		lineageTag: 68ebd566-173c-4f6a-81a1-8708e56f6ddc
+
+	/// Taux de Marge Brute : Marge Brute / Total CA. Retourne BLANK si CA = 0.
+	measure 'Taux de Marge' =
+			// Taux de Marge = Marge / CA (DIVIDE protege contre la division par zero)
+			DIVIDE( [Marge Brute], [Total CA] )
+		formatString: 0.00%
+		displayFolder: 01 - Base
+		lineageTag: 0b0122f4-2c3f-48d9-887c-ea01f75c7eaf
+
+	/// Quantite totale d'articles vendus. S'adapte a tout niveau de granularite.
+	measure Quantite =
+			// Quantite totale vendue sur le contexte de filtre actif
+			SUM( FactVENTES[Quantité] )
+		formatString: #,##0
+		displayFolder: 01 - Base
+		lineageTag: 09065f8e-c65c-4c1d-b39f-d789b31ed964
+
+	/// Nombre de factures distinctes dans le contexte de filtre, base sur IDFacture.
+	measure 'Nb Factures' =
+			// Nombre de factures distinctes (une facture = une transaction meme si plusieurs lignes)
+			DISTINCTCOUNT( FactVENTES[IDFacture] )
+		formatString: #,##0
+		displayFolder: 01 - Base
+		lineageTag: e5939dd8-db7d-426b-b988-6e0b35359e5e
+
+	/// Panier Moyen : CA divise par le nombre de factures. Valeur moyenne d'une transaction.
+	measure 'Panier Moyen' =
+			// Panier Moyen = Total CA / Nb Factures
+			DIVIDE( [Total CA], [Nb Factures] )
+		formatString: #,##0.00 €
+		displayFolder: 01 - Base
+		lineageTag: cda4f13b-d885-41b7-bf00-7ffa41c5adcc
+
+	/// CA analyse par date de livraison. USERELATIONSHIP active la relation inactive DateLivraison->DimDates[Date].
+	measure 'CA Livraison' =
+			// CA par date de livraison - relation inactive activee via USERELATIONSHIP
+			CALCULATE(
+			    [Total CA],
+			    USERELATIONSHIP( FactVENTES[DateLivraison], DimDates[Date] )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 02 - Livraison
+		lineageTag: a2b0f2f8-943c-4776-ae12-64f7b742473e
+
+	/// Marge Brute analysee par date de livraison via USERELATIONSHIP sur la relation inactive.
+	measure 'Marge Brute Livraison' =
+			// Marge Brute par date de livraison
+			CALCULATE(
+			    [Marge Brute],
+			    USERELATIONSHIP( FactVENTES[DateLivraison], DimDates[Date] )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 02 - Livraison
+		lineageTag: b48da236-4086-4d1f-9b10-51dd27d8de6f
+
+	/// Quantite analysee par date de livraison via la relation inactive DateLivraison->DimDates[Date].
+	measure 'Quantite Livraison' =
+			// Quantite par date de livraison
+			CALCULATE(
+			    [Quantite],
+			    USERELATIONSHIP( FactVENTES[DateLivraison], DimDates[Date] )
+			)
+		formatString: #,##0
+		displayFolder: 02 - Livraison
+		lineageTag: 957985dc-2664-45d7-b058-dc4b6c577c4f
+
+	/// CA cumule depuis le 1er janvier de l'annee selectionnee. DATESYTD etend le filtre de dates.
+	measure 'CA YTD' =
+			// CA Year-To-Date : cumul depuis le 1er janvier de l'annee en cours
+			CALCULATE(
+			    [Total CA],
+			    DATESYTD( DimDates[Date] )
+			)--Ce calcul peut-être effectuée directement avec TOTALYTD (= même résultat)
+			--Le choix de DATESYTD permet juste de mieux comprendre la logique du calcul
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: a585d76e-0860-4ca6-8a1b-eb6ab3160c7e
+
+	/// CA cumule depuis le 1er jour du mois selectionne (Month-To-Date).
+	measure 'CA MTD' =
+			// CA Month-To-Date : cumul depuis le 1er jour du mois en cours
+			CALCULATE(
+			    [Total CA],
+			    DATESMTD( DimDates[Date] )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: 2e709f80-bde1-4cbe-b6b8-7ef40060f8ed
+
+	/// CA de la meme periode l'annee precedente. DATEADD(-1, YEAR) decale exactement les dates selectionnees.
+	measure 'CA N-1' =
+			// CA meme periode annee precedente - DATEADD conserve la granularite des jours
+			CALCULATE(
+			    [Total CA],
+			    DATEADD( DimDates[Date], -1, YEAR )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: 4ae49934-1817-4bbe-97c1-4391f97e7416
+
+	/// Variation absolue CA vs N-1. IF necessaire : la soustraction avec BLANK donne un resultat errone en DAX.
+	measure 'CA Var N-1' =
+			// Variation absolue CA vs N-1
+			// IF necessaire : [Total CA] - BLANK() = [Total CA] en DAX, resultat faux
+			VAR CAActuel = [Total CA]
+			VAR CAN1 = [CA N-1]
+			RETURN
+			    IF(
+			        NOT ISBLANK( CAN1 ),
+			        CAActuel - CAN1
+			    )
+		formatString: +#,##0.00 €;-#,##0.00 €;
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: eb63189c-02bf-43c9-9ecf-6e4052f168a7
+
+	/// Variation en % du CA vs N-1. DIVIDE gere seul les cas BLANK et division par zero.
+	measure 'CA Var% N-1' =
+			// Variation % CA vs N-1
+			// DIVIDE retourne BLANK si denominateur = 0 ou BLANK : le IF est inutile
+			VAR CAActuel = [Total CA]
+			VAR CAN1 = [CA N-1]
+			RETURN
+			    DIVIDE( CAActuel - CAN1, CAN1 )
+		formatString: +0.00%;-0.00%;
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: c3c67d7e-a2ef-4689-a252-4470a9ff8a67
+
+	/// CA sur les 12 derniers mois glissants. DATESINPERIOD cree une fenetre mobile de 12 mois en arriere.
+	measure 'CA 12M Glissants' =
+			// CA 12 mois glissants : fenetre mobile depuis la derniere date du contexte
+			VAR DerniereDate = LASTDATE( DimDates[Date] )
+			RETURN
+			    CALCULATE(
+			        [Total CA],
+			        DATESINPERIOD( DimDates[Date], DerniereDate, -12, MONTH )
+			    )
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\CA
+		lineageTag: 30a01985-6e95-457c-a37d-aac2ccde482e
+
+	/// Marge Brute cumulee depuis le 1er janvier de l'annee selectionnee (Year-To-Date).
+	measure 'Marge Brute YTD' =
+			// Marge Brute Year-To-Date
+			CALCULATE(
+			    [Marge Brute],
+			    DATESYTD( DimDates[Date] )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\Marge
+		lineageTag: 5100b25e-d301-4119-8a1e-73001b7795b7
+
+	/// Marge Brute de la meme periode l'annee precedente. Utilise DATEADD(-1, YEAR).
+	measure 'Marge Brute N-1' =
+			// Marge Brute meme periode annee precedente
+			CALCULATE(
+			    [Marge Brute],
+			    DATEADD( DimDates[Date], -1, YEAR )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 03 - Time Intelligence\Marge
+		lineageTag: 85b61496-e643-4d6f-9934-b877df0317c0
+
+	/// Variation absolue de la Marge Brute vs N-1. IF necessaire pour eviter le resultat faux avec BLANK.
+	measure 'Marge Brute Var N-1' =
+			// Variation absolue Marge Brute vs N-1
+			// IF necessaire : la soustraction avec BLANK donne un resultat faux
+			VAR MargeActuelle = [Marge Brute]
+			VAR MargeN1 = [Marge Brute N-1]
+			RETURN
+			    IF(
+			        NOT ISBLANK( MargeN1 ),
+			        MargeActuelle - MargeN1
+			    )
+		formatString: +#,##0.00 €;-#,##0.00 €;
+		displayFolder: 03 - Time Intelligence\Marge
+		lineageTag: 6b61a70a-39d4-44d9-82f3-9fd74d02c0cb
+
+	/// Variation % Marge Brute vs N-1. ABS au denominateur pour marges negatives. DIVIDE gere les cas BLANK.
+	measure 'Marge Brute Var% N-1' =
+			// Variation % Marge Brute vs N-1
+			// ABS au denominateur pour gerer les marges negatives
+			// DIVIDE retourne BLANK seul : le IF est inutile
+			VAR MargeActuelle = [Marge Brute]
+			VAR MargeN1 = [Marge Brute N-1]
+			RETURN
+			    DIVIDE( MargeActuelle - MargeN1, ABS( MargeN1 ) )
+		formatString: +0.00%;-0.00%;
+		displayFolder: 03 - Time Intelligence\Marge
+		lineageTag: 2f7c1cc2-50ea-4e9d-9d06-230327d18f37
+
+	/// Quantite vendue cumulee depuis le 1er janvier de l'annee selectionnee (Year-To-Date).
+	measure 'Quantite YTD' =
+			// Quantite Year-To-Date
+			CALCULATE(
+			    [Quantite],
+			    DATESYTD( DimDates[Date] )
+			)
+		formatString: #,##0
+		displayFolder: 03 - Time Intelligence\Quantite
+		lineageTag: 95aa0c06-4d3f-40d1-99fd-4477628c576f
+
+	/// Quantite vendue cumulee depuis le 1er jour du mois selectionne (Month-To-Date).
+	measure 'Quantite MTD' =
+			// Quantite Month-To-Date
+			CALCULATE(
+			    [Quantite],
+			    DATESMTD( DimDates[Date] )
+			)
+		formatString: #,##0
+		displayFolder: 03 - Time Intelligence\Quantite
+		lineageTag: 41f6cd65-669e-41cb-9904-a3a23d9ddb77
+
+	/// Quantite vendue sur la meme periode l'annee precedente.
+	measure 'Quantite N-1' =
+			// Quantite meme periode annee precedente
+			CALCULATE(
+			    [Quantite],
+			    DATEADD( DimDates[Date], -1, YEAR )
+			)
+		formatString: #,##0
+		displayFolder: 03 - Time Intelligence\Quantite
+		lineageTag: 53d5a42e-7b6a-4f3a-bc68-0d72f11cb0ae
+
+	/// Variation absolue des quantites vendues vs N-1. IF necessaire pour eviter le resultat faux avec BLANK.
+	measure 'Quantite Var N-1' =
+			// Variation absolue Quantite vs N-1
+			// IF necessaire : la soustraction avec BLANK donne un resultat faux
+			VAR QteActuelle = [Quantite]
+			VAR QteN1 = [Quantite N-1]
+			RETURN
+			    IF(
+			        NOT ISBLANK( QteN1 ),
+			        QteActuelle - QteN1
+			    )
+		formatString: +#,##0;-#,##0;
+		displayFolder: 03 - Time Intelligence\Quantite
+		lineageTag: d1d65711-c631-4fcf-ac6a-f824204e843e
+
+	/// Variation en % des quantites vendues vs N-1. DIVIDE gere seul les cas BLANK et division par zero.
+	measure 'Quantite Var% N-1' =
+			// Variation % Quantite vs N-1
+			// DIVIDE retourne BLANK seul : le IF est inutile
+			VAR QteActuelle = [Quantite]
+			VAR QteN1 = [Quantite N-1]
+			RETURN
+			    DIVIDE( QteActuelle - QteN1, QteN1 )
+		formatString: +0.00%;-0.00%;
+		displayFolder: 03 - Time Intelligence\Quantite
+		lineageTag: e7b8d9c4-780a-426b-baa8-f9d81530475b
+
+	/// Part du CA de la categorie sur le total toutes categories (ALL supprime le filtre categorie).
+	/// Part du CA de la categorie sur le total toutes categories (VAR evite le double calcul).
+	measure 'CA % Catégorie' =
+			VAR CAToutesCategories =
+			    CALCULATE( [Total CA], ALL( DimProduits[Catégorie] ) )
+			-- CA sans filtre sur la categorie : denominator = total toutes categories
+			RETURN
+			    DIVIDE( [Total CA], CAToutesCategories )
+		formatString: 0.00%
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000001
+
+	/// Exemple CALCULATE avec 2 filtres independants : categorie ET prix unitaire (seuil 900 EUR).
+	measure 'CA Ordinateurs Premiums' =
+			-- 2 filtres dans CALCULATE : les deux conditions s'appliquent en ET logique
+			CALCULATE(
+			    [Total CA],
+			    DimProduits[Catégorie] = "Computers",
+			    FactVENTES[UnitPriceEUR] > 900
+			)
+		formatString: #,##0.00 €
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000002
+
+	/// Affiche l'annee selectionnee dans le slicer. Exemple SELECTEDVALUE avec valeur par defaut.
+	measure 'Année Texte' =
+			VAR AnneeSelectionnee = SELECTEDVALUE( DimDates[Année], "Toutes" )
+			-- Valeur unique du slicer, ou "Toutes" si plusieurs annees selectionnees
+			RETURN
+			    "Année : " & AnneeSelectionnee
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000003
+
+	/// Clients ayant passe plus de 5 factures. Exemple FILTER sur une mesure (transition de contexte).
+	measure 'Nb Clients Actifs' =
+			// FILTER sur mesure : COUNTROWS(FactVENTES) declenche la transition de contexte par client
+			CALCULATE(
+			    DISTINCTCOUNT( FactVENTES[IDClient] ),
+			    FILTER( DimClients, CALCULATE( COUNTROWS( FactVENTES ) ) > 5 )
+			)
+		formatString: #,##0
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000004
+
+	/// Nombre de references produits distinctes vendues. Exemple CROSSFILTER BOTH.
+	measure 'Nb Produits Vendus' =
+			// CROSSFILTER BOTH : permet de filtrer DimProduits depuis FactVENTES (sens inverse)
+			CALCULATE(
+			    DISTINCTCOUNT( DimProduits[IDProduit] ),
+			    CROSSFILTER( FactVENTES[IDProduit], DimProduits[IDProduit], BOTH )
+			)
+		formatString: #,##0
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000005
+
+	/// Moyenne mensuelle du CA sur les 3 derniers mois glissants. Exemple DATESINPERIOD + VAR.
+	measure 'Moyenne Mobile CA 3M' =
+			VAR CA3DerniersMois =
+			    CALCULATE(
+			        [Total CA],
+			        DATESINPERIOD( DimDates[Date], LASTDATE( DimDates[Date] ), -3, MONTH )
+			    )
+			-- CA cumule sur la fenetre glissante de 3 mois en arriere
+			RETURN
+			    DIVIDE( CA3DerniersMois, 3 )
+		formatString: #,##0.00 €
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000006
+
+	/// Part du CA sur le total general tous filtres produits supprimes. Exemple ALL(table) + VAR.
+	measure 'CA % Total' =
+			VAR CATousProduits =
+			    CALCULATE( [Total CA], ALL( DimProduits ) )
+			-- ALL(table) : supprime tous les filtres sur la table DimProduits
+			RETURN
+			    DIVIDE( [Total CA], CATousProduits )
+		formatString: 0.00%
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000007
+
+	/// Part du CA sur le total de la selection slicer. Exemple ALLSELECTED + VAR.
+	measure 'CA % Sélection' =
+			VAR CASelectionTotale =
+			    CALCULATE( [Total CA], ALLSELECTED( DimProduits[Catégorie] ) )
+			-- ALLSELECTED : ignore le filtre categorie du visuel, conserve les slicers
+			RETURN
+			    DIVIDE( [Total CA], CASelectionTotale )
+		formatString: 0.00%
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000008
+
+	/// Classement des categories par CA descendant (1 = meilleure). Exemple RANKX avec ALL.
+	measure 'Rang Catégorie CA' =
+			// RANKX(ALL(...)) : classement sur toutes les categories, pas seulement celles filtrees
+			RANKX( ALL( DimProduits[Catégorie] ), [Total CA] )
+		formatString: #,##0
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000009
+
+	/// Label adapte au niveau de drill actif dans le visuel. Exemple ISINSCOPE.
+	measure 'Libellé Niveau' =
+			// ISINSCOPE : TRUE si la colonne est un en-tete de ligne/colonne actif dans le visuel
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE( DimDates[Mois] ),  "Détail mois",
+			    ISINSCOPE( DimDates[Année] ), "Total année",
+			    "Total général"
+			)
+		displayFolder: 04 - Demos Formation
+		lineageTag: d1000000-0000-0000-0000-000000000010
+
+	/// Colonne inutile mais une table ne peut pas ne pas avoir de colonnes du tout ;-)
+	column ColonneInutile
+		isHidden
+		formatString: 0
+		lineageTag: c719a3aa-7101-48e3-9649-bb83369c6a47
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ColonneInutile]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'CALCULS et MESURES' = calculated
+		source = ROW("ColonneInutile", BLANK())
+

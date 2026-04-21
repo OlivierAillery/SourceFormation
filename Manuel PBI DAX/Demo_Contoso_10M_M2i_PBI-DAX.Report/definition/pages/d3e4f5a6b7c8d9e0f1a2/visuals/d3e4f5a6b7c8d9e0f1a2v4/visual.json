@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "d3e4f5a6b7c8d9e0f1a2v4",
+  "position": {
+    "x": 24,
+    "y": 196,
+    "z": 0,
+    "height": 480,
+    "width": 1232,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Mois-Ann\u00e9e"
+                }
+              },
+              "queryRef": "DimDates.Mois-Ann\u00e9e",
+              "nativeQueryRef": "Mois-Ann\u00e9e",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "_Mesures.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CALCULS et MESURES"
+                    }
+                  },
+                  "Property": "CA Livraison"
+                }
+              },
+              "queryRef": "_Mesures.CA Livraison",
+              "nativeQueryRef": "CA Livraison"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDates"
+                  }
+                },
+                "Property": "Ann\u00e9e-Mois"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

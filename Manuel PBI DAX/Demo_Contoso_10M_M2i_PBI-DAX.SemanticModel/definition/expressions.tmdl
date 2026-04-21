@@ -1,0 +1,18 @@
+/// Nom du serveur SQL
+expression pServer = "demooa" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 6c82dc5f-5bf2-404f-9e17-5670edf2b4e8
+	queryGroup: PARAMETRES
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+/// Nom de la base de données
+expression pBaseDeDonnees = "Contoso_10M" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1631ecc1-04ce-4db2-af6a-fa6cd135a30f
+	queryGroup: PARAMETRES
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
