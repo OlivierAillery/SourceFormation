@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "aa00000000000000aa09",
   "position": {
     "x": 240,
@@ -58,7 +58,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
                   "Property": "Total CA"
@@ -72,7 +72,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
                   "Property": "CA Var% N-1"

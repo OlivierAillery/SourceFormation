@@ -16,3 +16,35 @@ expression pBaseDeDonnees = "Contoso_10M" meta [IsParameterQuery=true, Type="Tex
 
 	annotation PBI_ResultType = Text
 
+/// Croisement entre la table Produits et FacVentes pour retourver les IDProduit absent des ventes
+expression 'Produits Non Vendu' =
+		let
+		    Source = Table.NestedJoin(DimProduits, {"IDProduit"}, FactVENTES, {"IDProduit"}, "FactVENTES", JoinKind.LeftAnti)
+		in
+		    Source
+	lineageTag: df21f325-394a-4cb8-988b-316c4a88f5b4
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+/// Nombre d'années d'historique à charger - max 10
+expression pAnneeHistorique = 4 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: 5d0de446-b470-44f8-ba14-2d2032e10346
+	queryGroup: PARAMETRES
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Number
+
+expression 'Clients dans Ventes mais pas Client' =
+		let
+		    Source = Table.NestedJoin(FactVENTES, {"IDClient"}, DimClients, {"IDClient"}, "DimClients", JoinKind.LeftAnti)
+		in
+		    Source
+	lineageTag: 93fe30e8-ea30-4cad-9c7d-6cb33cfbd9bd
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,214 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "100aabca104375ed2743",
+  "position": {
+    "x": 38.513274336283189,
+    "y": 30.584070796460178,
+    "z": 0,
+    "height": 258.26548672566372,
+    "width": 873.3451327433628,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduits"
+                    }
+                  },
+                  "Property": "Catégorie"
+                }
+              },
+              "queryRef": "DimProduits.Catégorie",
+              "nativeQueryRef": "Catégorie"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduits"
+                    }
+                  },
+                  "Property": "Sous Catégorie"
+                }
+              },
+              "queryRef": "DimProduits.Sous Catégorie",
+              "nativeQueryRef": "Sous Catégorie"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "CA Ordinateurs"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.CA Ordinateurs",
+              "nativeQueryRef": "CA Ordinateurs"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "CA Ordinateurs seulement"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.CA Ordinateurs seulement",
+              "nativeQueryRef": "CA Ordinateurs seulement"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "CA Toutes catégories"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.CA Toutes catégories",
+              "nativeQueryRef": "CA Toutes catégories"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128.68459079569453D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CALCULS et MESURES.CA Ordinateurs seulement"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8eb8dba412a6b137b73c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduits"
+              }
+            },
+            "Property": "Catégorie"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "17e925a24a0ed043ab43",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduits"
+              }
+            },
+            "Property": "Sous Catégorie"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "23b0299c58a2cbb204c5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total CA"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ac73ccf01d658750a741",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "CA Ordinateurs"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c4b45f51091977030103",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "CA Ordinateurs seulement"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "86e4855788aaa1214872",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "CA Toutes catégories"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

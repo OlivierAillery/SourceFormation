@@ -85,13 +85,23 @@ table DimProduits
 
 		annotation SummarizationSetBy = Automatic
 
+	column PrixUnitEUR
+		dataType: double
+		lineageTag: a7c43ce3-7867-4d5c-a4b0-3f443747ece3
+		summarizeBy: none
+		sourceColumn: PrixUnitEUR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition DimProduits = m
 		mode: import
 		source =
 				let
 				    Source = Sql.Database(pServer, pBaseDeDonnees, [Query="SELECT [ProductKey]#(lf)      ,[ProductCode]#(lf)      ,[ProductName]#(lf)      ,[Manufacturer]#(lf)      ,[Brand]#(lf)      ,[Color]#(lf)      ,[WeightUnit]#(lf)      ,[Weight]#(lf)      ,[UnitCost] AS CostEUR#(lf)      ,[UnitPrice] AS PriceEUR#(lf)      ,[CategoryCode]#(lf)      ,[CategoryName]#(lf)      ,[SubCategoryCode]#(lf)      ,[SubCategoryName]#(lf)  FROM [Contoso_10M].[dbo].[Product]#(lf)", CreateNavigationProperties=false]),
 				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"ProductKey", "IDProduit"}, {"ProductCode", "ProduitCode"}, {"ProductName", "Descritpion Produit"}, {"Manufacturer", "Fabricant"}, {"Brand", "Marque"}, {"Color", "Couleur"}, {"CostEUR", "CoutUnitEUR"}, {"PriceEUR", "PrixUnitEUR"}, {"CategoryCode", "CategorieCode"}, {"CategoryName", "Catégorie"}, {"SubCategoryCode", "SousCategorieCode"}, {"SubCategoryName", "Sous Catégorie"}}),
-				    #"Autres colonnes supprimées" = Table.SelectColumns(#"Colonnes renommées",{"IDProduit", "ProduitCode", "Descritpion Produit", "Fabricant", "Marque", "Couleur", "CategorieCode", "Catégorie", "SousCategorieCode", "Sous Catégorie"})
+				    #"Autres colonnes supprimées" = Table.SelectColumns(#"Colonnes renommées",{"IDProduit", "ProduitCode", "Descritpion Produit", "Fabricant", "Marque", "Couleur", "PrixUnitEUR", "CategorieCode", "Catégorie", "SousCategorieCode", "Sous Catégorie"})
 				in
 				    #"Autres colonnes supprimées"
 

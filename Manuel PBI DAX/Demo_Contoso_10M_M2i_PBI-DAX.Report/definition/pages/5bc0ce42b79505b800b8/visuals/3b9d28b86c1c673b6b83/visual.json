@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "3b9d28b86c1c673b6b83",
+  "position": {
+    "x": 0,
+    "y": 570,
+    "z": 1,
+    "height": 150,
+    "width": 844,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Date Dernière Livraison"
+                }
+              },
+              "queryRef": "MESURES DAX.Date Dernière Livraison",
+              "nativeQueryRef": "Date Dernière Livraison"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Première Date Facture"
+                }
+              },
+              "queryRef": "MESURES DAX.Première Date Facture",
+              "nativeQueryRef": "Première Date Facture"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "MESURES DAX"
+                  }
+                },
+                "Property": "Date Dernière Livraison"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "984443a80a839e5d480a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Date Dernière Livraison"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c589e0ca081141d40ce5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Première Date Facture"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "c2d3e4f5a6b7c8d9e0f1v4",
   "position": {
     "x": 24,
@@ -23,11 +23,11 @@
                       "Entity": "DimProduits"
                     }
                   },
-                  "Property": "Cat\u00e9gorie"
+                  "Property": "Catégorie"
                 }
               },
-              "queryRef": "DimProduits.Cat\u00e9gorie",
-              "nativeQueryRef": "Cat\u00e9gorie",
+              "queryRef": "DimProduits.Catégorie",
+              "nativeQueryRef": "Catégorie",
               "active": true
             }
           ]
@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
                   "Property": "Total CA"
@@ -53,28 +53,28 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
-                  "Property": "CA % Cat\u00e9gorie"
+                  "Property": "CA % Catégorie"
                 }
               },
-              "queryRef": "_Mesures.CA % Cat\u00e9gorie",
-              "nativeQueryRef": "CA % Cat\u00e9gorie"
+              "queryRef": "_Mesures.CA % Catégorie",
+              "nativeQueryRef": "CA % Catégorie"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
-                  "Property": "CA % S\u00e9lection"
+                  "Property": "CA % Sélection"
                 }
               },
-              "queryRef": "_Mesures.CA % S\u00e9lection",
-              "nativeQueryRef": "CA % S\u00e9lection"
+              "queryRef": "_Mesures.CA % Sélection",
+              "nativeQueryRef": "CA % Sélection"
             }
           ]
         }
@@ -86,7 +86,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "CALCULS et MESURES"
+                    "Entity": "MESURES DAX"
                   }
                 },
                 "Property": "Total CA"

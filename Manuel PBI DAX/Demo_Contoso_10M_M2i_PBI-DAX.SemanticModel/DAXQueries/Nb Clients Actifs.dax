@@ -1,0 +1,6 @@
+// Compte des clients ayant réalisé plus de 5 factures
+EVALUATE --mot clé obligatoire pour tester vos requêtes en Vue DAX
+    ADDCOLUMNS( --On ajoute une colonne avec le nombre de factures pour vérification (inexistante dans la mesure)
+            FILTER( ALL( DimClients[IDClient] ), [Nb Factures] > 5 ), --crée la table virtuelle des clients avec plus de 5 factures
+        "Nb Fact" ,  CALCULATE( DISTINCTCOUNT( FactVENTES[IDFacture] ) ) --En supprimant le Calculate toutes les lignes donnent le compte global
+    )--A savoir ADDCOLUMS est une fonction itérative

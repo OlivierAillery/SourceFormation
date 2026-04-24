@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 104.63088471965023,
-            "y": 611.4636039049085
+            "x": 139.82746552609862,
+            "y": 559.92575343832334
           },
           "nodeIndex": "DimClients",
           "nodeLineageTag": "de8fc78e-cf52-49de-b32b-f8260f0ffa84",
@@ -78,8 +78,7 @@
             "x": 1226.1121577913896,
             "y": 130.72508893980205
           },
-          "nodeIndex": "CALCULS et MESURES",
-          "nodeLineageTag": "98f5ca33-9e82-4f87-9036-49c4f277bb9e",
+          "nodeIndex": "MESURES DAX",
           "size": {
             "height": 200,
             "width": 234

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "e4f5a6b7c8d9e0f1a2b3v5",
   "position": {
     "x": 648,
@@ -23,11 +23,12 @@
                       "Entity": "DimDates"
                     }
                   },
-                  "Property": "Ann\u00e9e"
+                  "Property": "Année"
                 }
               },
-              "queryRef": "DimDates.Ann\u00e9e",
-              "nativeQueryRef": "Ann\u00e9e"
+              "queryRef": "DimDates.Année",
+              "nativeQueryRef": "Année",
+              "active": true
             }
           ]
         }

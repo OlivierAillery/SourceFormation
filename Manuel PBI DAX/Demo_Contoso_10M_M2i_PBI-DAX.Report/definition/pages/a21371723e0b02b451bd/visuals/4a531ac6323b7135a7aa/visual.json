@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "4a531ac6323b7135a7aa",
+  "position": {
+    "x": 282.05309734513276,
+    "y": 191.43362831858408,
+    "z": 0,
+    "height": 150.65486725663717,
+    "width": 299.04424778761063
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Produits Premium"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Produits Premium",
+              "nativeQueryRef": "Nb Produits Premium"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "MESURES DAX"
+                  }
+                },
+                "Property": "Nb Produits Premium"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2ca7b0e01b014ac94038",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Produits Premium"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

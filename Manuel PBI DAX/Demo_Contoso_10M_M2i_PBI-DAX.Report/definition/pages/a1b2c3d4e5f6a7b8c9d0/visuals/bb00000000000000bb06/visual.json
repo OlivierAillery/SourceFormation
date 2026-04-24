@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "bb00000000000000bb06",
   "position": {
     "x": 640,
@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
                   "Property": "Marge Brute"
@@ -53,7 +53,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
                   "Property": "Marge Brute YTD"

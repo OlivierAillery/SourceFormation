@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "c2d3e4f5a6b7c8d9e0f1v3",
   "position": {
     "x": 336,
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
-                  "Property": "Ann\u00e9e Texte"
+                  "Property": "Titre Année"
                 }
               },
-              "queryRef": "_Mesures.Ann\u00e9e Texte",
-              "nativeQueryRef": "Ann\u00e9e Texte"
+              "queryRef": "_Mesures.Année Texte",
+              "nativeQueryRef": "Année Texte"
             }
           ]
         }

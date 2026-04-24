@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "acbad203bc0dea46d958",
+  "position": {
+    "x": 813.30973451327429,
+    "y": 225.41592920353983,
+    "z": 5,
+    "height": 157.45132743362831,
+    "width": 466.69026548672565
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Titre Catégorie(s) choisie(s)"
+                }
+              },
+              "queryRef": "MESURES DAX.Titre Catéorie choisie",
+              "nativeQueryRef": "Titre Catégorie(s) choisie(s)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c6653bd1868090b77a02",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Titre Catégorie(s) choisie(s)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

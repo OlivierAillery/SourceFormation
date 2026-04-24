@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "fb0d90459da17ea0bc06",
+  "position": {
+    "x": 979.82300884955748,
+    "y": 43.044247787610622,
+    "z": 2,
+    "height": 118.93805309734513,
+    "width": 300.17699115044246
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Lignes de Ventes"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Lignes de Ventes",
+              "nativeQueryRef": "Nb Lignes de Ventes"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "MESURES DAX"
+                  }
+                },
+                "Property": "Nb Lignes de Ventes"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "28ae251a9906703804d0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Lignes de Ventes"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

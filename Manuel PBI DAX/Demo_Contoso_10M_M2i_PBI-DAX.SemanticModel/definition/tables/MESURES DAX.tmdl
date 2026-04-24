@@ -1,5 +1,5 @@
 /// Table centralisee des mesures DAX - Formation PBI-DAX M2i
-table 'CALCULS et MESURES'
+table 'MESURES DAX'
 	lineageTag: 98f5ca33-9e82-4f87-9036-49c4f277bb9e
 
 	/// Chiffre d'Affaires total : somme du prix net EUR. Mesure de base pour tous les calculs financiers.
@@ -45,9 +45,9 @@ table 'CALCULS et MESURES'
 		displayFolder: 01 - Base
 		lineageTag: 09065f8e-c65c-4c1d-b39f-d789b31ed964
 
-	/// Nombre de factures distinctes dans le contexte de filtre, base sur IDFacture.
+	/// Nombre de factures distinctes dans le contexte de filtre, base sur IDFacture. DISTINCTCOUNT
 	measure 'Nb Factures' =
-			// Nombre de factures distinctes (une facture = une transaction meme si plusieurs lignes)
+			// Nombre de factures distinctes (une facture = une transaction meme si plusieurs lignes de détails)
 			DISTINCTCOUNT( FactVENTES[IDFacture] )
 		formatString: #,##0
 		displayFolder: 01 - Base
@@ -298,39 +298,37 @@ table 'CALCULS et MESURES'
 			    DimProduits[Catégorie] = "Computers",
 			    FactVENTES[UnitPriceEUR] > 900
 			)
-		formatString: #,##0.00 €
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		displayFolder: 04 - Demos Formation
 		lineageTag: d1000000-0000-0000-0000-000000000002
 
 	/// Affiche l'annee selectionnee dans le slicer. Exemple SELECTEDVALUE avec valeur par defaut.
-	measure 'Année Texte' =
-			VAR AnneeSelectionnee = SELECTEDVALUE( DimDates[Année], "Toutes" )
-			-- Valeur unique du slicer, ou "Toutes" si plusieurs annees selectionnees
+	measure 'Titre Année' =
+			
+			VAR AnneeSelectionnee = SELECTEDVALUE( DimDates[Année], "Plusieurs années" )
+			-- Valeur unique du slicer, ou "Plusieurs années" si plusieurs années sélectionnées
 			RETURN
 			    "Année : " & AnneeSelectionnee
 		displayFolder: 04 - Demos Formation
 		lineageTag: d1000000-0000-0000-0000-000000000003
 
-	/// Clients ayant passe plus de 5 factures. Exemple FILTER sur une mesure (transition de contexte).
-	measure 'Nb Clients Actifs' =
-			// FILTER sur mesure : COUNTROWS(FactVENTES) declenche la transition de contexte par client
-			CALCULATE(
-			    DISTINCTCOUNT( FactVENTES[IDClient] ),
-			    FILTER( DimClients, CALCULATE( COUNTROWS( FactVENTES ) ) > 5 )
-			)
+	/// Clients ayant eu plus de 5 factures. Exemple FILTER sur une mesure (transition de contexte).
+	measure 'Nb Clients Actifs v1' =
+			
+			VAR ClientsAvecCinqFactOuPlus = FILTER( ALL( DimClients[IDClient] ), --Filtrer parmi tous les clients
+			        [Nb Factures] > 5 )--ceux qui ont plus de 5 factures
+			RETURN
+			    CALCULATE( [Nb Clients (avec ventes)], ClientsAvecCinqFactOuPlus ) --la table virtuelle ClientsAvecCinqFactOuPlus sert de filtre dans le CALCULATE
 		formatString: #,##0
 		displayFolder: 04 - Demos Formation
 		lineageTag: d1000000-0000-0000-0000-000000000004
 
-	/// Nombre de references produits distinctes vendues. Exemple CROSSFILTER BOTH.
+	/// Nombre de références produits distinctes vendues. DISTINCTCOUNT
 	measure 'Nb Produits Vendus' =
-			// CROSSFILTER BOTH : permet de filtrer DimProduits depuis FactVENTES (sens inverse)
-			CALCULATE(
-			    DISTINCTCOUNT( DimProduits[IDProduit] ),
-			    CROSSFILTER( FactVENTES[IDProduit], DimProduits[IDProduit], BOTH )
-			)
+			//Compte Distinct des IDProduit trouvé dans la table ventes
+			    DISTINCTCOUNT( FactVENTES[IDProduit] )
 		formatString: #,##0
-		displayFolder: 04 - Demos Formation
+		displayFolder: 01 - Base
 		lineageTag: d1000000-0000-0000-0000-000000000005
 
 	/// Moyenne mensuelle du CA sur les 3 derniers mois glissants. Exemple DATESINPERIOD + VAR.
@@ -389,6 +387,112 @@ table 'CALCULS et MESURES'
 		displayFolder: 04 - Demos Formation
 		lineageTag: d1000000-0000-0000-0000-000000000010
 
+	measure 'CA Ordinateurs' = CALCULATE( [Total CA], DimProduits[Catégorie] = "Computers" )
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		displayFolder: 04 - Demos Formation
+		lineageTag: 973beefa-e16f-4d93-b123-6309a99be6bd
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure 'CA Ordinateurs seulement' = CALCULATE( [Total CA], KEEPFILTERS(DimProduits[Catégorie] = "Computers" ) )
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		displayFolder: 04 - Demos Formation
+		lineageTag: c834119d-8d68-4345-b361-bd48df79315f
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure 'CA Toutes catégories' = ```
+			CALCULATE( [Total CA] , REMOVEFILTERS( DimProduits[Catégorie] ) ) 
+			```
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		displayFolder: 04 - Demos Formation
+		lineageTag: e6ffb816-897d-41a3-93a7-62668c7b99b7
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	/// Compte des lignes  de la table produits (rapide mais sans distinction) COUNTROWS
+	measure 'Nb Produits total' =
+			//Le plus rapide on compte les lignes de la table
+			COUNTROWS( DimProduits )
+		formatString: 0
+		displayFolder: 01 - Base
+		lineageTag: 2e347a74-b57a-4bf9-b99e-6bb05204e0eb
+
+	measure 'Nb Clients (avec ventes)' = DISTINCTCOUNT( FactVENTES[IDClient] )
+		formatString: #,0
+		displayFolder: 01 - Base
+		lineageTag: 395f0fcc-859c-4078-9ce6-b0dcbbd8c8a6
+
+	measure 'Nb Client (base client)' = COUNTROWS( DimClients ) --Compte des lignes de la table client
+		formatString: #,0
+		displayFolder: 01 - Base
+		lineageTag: 15effbec-5cbf-4798-a842-dc82771b4f0d
+
+	measure 'Nb Clients Actifs v2' =
+			
+			VAR ClientsAvecCinqFactOuPlus = FILTER( ALL( DimClients[IDClient] ), --Filtrer parmi tous les clients
+			        DISTINCTCOUNT( FactVENTES[IDFacture] ) > 5 )--ceux qui ont plus de 5 factures
+			RETURN
+			    CALCULATE( [Nb Clients (avec ventes)], ClientsAvecCinqFactOuPlus ) --la table virtuelle ClientsAvecCinqFactOuPlus sert de filtre dans le CALCULATE
+		formatString: #,0
+		displayFolder: 04 - Demos Formation
+		lineageTag: ff9b468c-1a23-42ae-bfcb-cd81d681b6b2
+
+	measure 'Nb Clients Actifs v3' =
+			
+			VAR ClientsAvecCinqFactOuPlus = FILTER( ALL( DimClients[IDClient] ), --Filtrer parmi tous les clients
+			        CALCULATE( DISTINCTCOUNT( FactVENTES[IDFacture] ) ) > 5 )--ceux qui ont plus de 5 factures
+			RETURN
+			    CALCULATE( [Nb Clients (avec ventes)], ClientsAvecCinqFactOuPlus ) --la table virtuelle ClientsAvecCinqFactOuPlus sert de filtre dans le CALCULATE
+		formatString: #,0
+		displayFolder: 04 - Demos Formation
+		lineageTag: 07cdc9ed-128e-4723-80d2-d2f7d0f5a60c
+
+	measure 'Première Date Facture' =
+			FIRSTDATE( FactVENTES[DateVente] ) --Pour la Time Intelligence il est préférable d'utiliser FIRSTDATE plutôt que MIN
+			--FIRSTDATE retourne une table (pas MIN qui retourne une valeur) et il est possible d'utiliser cette table comme filtre dans CALCULATE
+		formatString: General Date
+		displayFolder: 01 - Base
+		lineageTag: 55781407-1afa-435e-bfff-b30f3b5c0402
+
+	measure 'Date Dernière Livraison' =
+			LASTDATE( FactVENTES[DateLivraison] ) --Pour la Time Intelligence il est préférable d'utiliser LASTDATE plutôt que MAX
+			--LASTDATE retourne une table (pas MAX qui retourne une valeur) et il est possible d'utiliser cette table comme filtre dans CALCULATE
+		formatString: General Date
+		displayFolder: 01 - Base
+		lineageTag: e3c22a6b-bd40-4abf-ad8f-c8d1792ba1dd
+
+	measure 'Nb Lignes de Ventes' =
+			--Nombre total de lignes de détails/ventes (pour toutes les factures)
+			COUNTROWS( FactVENTES )
+		formatString: #,0
+		displayFolder: 01 - Base
+		lineageTag: 4b95d581-0acd-4f05-9402-d333af5d69fe
+
+	measure 'Total des Clients Actifs' =
+			SUMX( VALUES( DimDates[Année] ),
+			[Nb Clients Actifs v1] )
+		formatString: #,0
+		displayFolder: 04 - Demos Formation
+		lineageTag: ba9be261-a430-46b7-94a5-feac5c41928d
+
+	measure 'Titre Catégorie(s) choisie(s)' =
+			
+			VAR CategorieCSelec = VALUES ( DimProduits[Catégorie] )
+			RETURN
+			CONCATENATEX( CategorieCSelec , DimProduits[Catégorie] , " , " )
+		displayFolder: 04 - Demos Formation
+		lineageTag: 421fe9c5-8038-495c-8242-d149b73b76bc
+
+	measure 'Nb Produits Premium' =
+			CALCULATE( [Nb Produits Vendus] ,
+			(DimProduits[Catégorie] = "Computers" && DimProduits[PrixUnitEUR] > 900) ||
+			(DimProduits[Catégorie] = "Games and Toys" && DimProduits[PrixUnitEUR] > 200)
+			)
+		formatString: 0
+		displayFolder: 04 - Demos Formation
+		lineageTag: 651c85a5-48d8-49b1-b482-c449201d65ee
+
 	/// Colonne inutile mais une table ne peut pas ne pas avoir de colonnes du tout ;-)
 	column ColonneInutile
 		isHidden
@@ -400,6 +504,6 @@ table 'CALCULS et MESURES'
 
 		annotation SummarizationSetBy = Automatic
 
-	partition 'CALCULS et MESURES' = calculated
+	partition 'MESURES DAX' = calculated
 		source = ROW("ColonneInutile", BLANK())
 

@@ -13,16 +13,16 @@ queryGroup PARAMETRES
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["DimClients","pServer","pBaseDeDonnees","DimMagasins","DimProduits","FactVENTES"]
+annotation PBI_QueryOrder = ["DimClients","pAnneeHistorique","pServer","pBaseDeDonnees","DimMagasins","DimProduits","FactVENTES","Produits Non Vendu","Clients dans Ventes mais pas Client"]
 
-annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode"]
+annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop"]
 
 ref table DimClients
 ref table DimMagasins
 ref table DimProduits
 ref table FactVENTES
 ref table DimDates
-ref table 'CALCULS et MESURES'
+ref table 'MESURES DAX'
 
 ref cultureInfo fr-FR
 

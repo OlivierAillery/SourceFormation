@@ -1,0 +1,183 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "cc7711d3e868ca5e76b5",
+  "position": {
+    "x": 276.38938053097343,
+    "y": 280.92035398230087,
+    "z": 3,
+    "height": 157.45132743362831,
+    "width": 363.61061946902657,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année"
+                }
+              },
+              "queryRef": "DimDates.Année",
+              "nativeQueryRef": "Année"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Clients Actifs v1"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.Nb Clients Actifs",
+              "nativeQueryRef": "Nb Clients Actifs v1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total des Clients Actifs"
+                }
+              },
+              "queryRef": "MESURES DAX.Total des Clients Actifs",
+              "nativeQueryRef": "Total des Clients Actifs"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "130.65486725663717D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CALCULS et MESURES.Nb Clients Actifs"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "502651632ace1000b7a2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients (avec ventes)"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "MESURES DAX",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "Nb Clients (avec ventes)"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "f5f9ddf0a280c0830e9d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients Actifs v1"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "879ee3b49d9e6010d567",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDates"
+              }
+            },
+            "Property": "Année"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f3547a5206da8e5392b4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total des Clients Actifs"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

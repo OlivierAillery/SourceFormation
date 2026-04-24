@@ -114,9 +114,11 @@ table FactVENTES
 				    #"Colonnes renommées" = Table.RenameColumns(Source,{{"OrderKey", "IDFacture"}, {"CustomerKey", "IDClient"}, {"StoreKey", "IDMagasin"}, {"OrderDate", "DateVente"}, {"DeliveryDate", "DateLivraison"}, {"ProductKey", "IDProduit"}, {"Quantity", "Quantité"}}),
 				    #"Soustraction insérée" = Table.AddColumn(#"Colonnes renommées", "Soustraction", each [UnitPriceEUR] - [NetPriceEUR], type number),
 				    #"Colonnes renommées1" = Table.RenameColumns(#"Soustraction insérée",{{"Soustraction", "Remise"}}),
-				    #"Type modifié" = Table.TransformColumnTypes(#"Colonnes renommées1",{{"UnitCostEUR", Currency.Type}, {"NetPriceEUR", Currency.Type}, {"UnitPriceEUR", Currency.Type}, {"Remise", Currency.Type}})
+				    #"Type modifié" = Table.TransformColumnTypes(#"Colonnes renommées1",{{"UnitCostEUR", Currency.Type}, {"NetPriceEUR", Currency.Type}, {"UnitPriceEUR", Currency.Type}, {"Remise", Currency.Type}}),
+				    // Prend le nombre d'années d'historique selon le paramètre pAnneeHistorique
+				    #"Lignes filtrées (choix Années Historiques)" = Table.SelectRows(#"Type modifié", each Date.IsInPreviousNYears([DateVente], pAnneeHistorique))
 				in
-				    #"Type modifié"
+				    #"Lignes filtrées (choix Années Historiques)"
 
 	annotation PBI_NavigationStepName = Navigation
 

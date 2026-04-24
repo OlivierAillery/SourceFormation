@@ -23,11 +23,11 @@
                       "Entity": "DimDates"
                     }
                   },
-                  "Property": "Ann\u00e9e"
+                  "Property": "Année"
                 }
               },
-              "queryRef": "DimDates.Ann\u00e9e",
-              "nativeQueryRef": "Ann\u00e9e",
+              "queryRef": "DimDates.Année",
+              "nativeQueryRef": "Année",
               "active": true
             }
           ]

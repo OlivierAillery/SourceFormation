@@ -1,0 +1,314 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "45b42d00e7e05d9d7cca",
+  "position": {
+    "x": 0,
+    "y": 103.07964601769912,
+    "z": 0,
+    "height": 157.45132743362831,
+    "width": 995.68141592920358,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année"
+                }
+              },
+              "queryRef": "DimDates.Année",
+              "nativeQueryRef": "Année"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Clients Actifs v1"
+                }
+              },
+              "queryRef": "CALCULS et MESURES.Nb Clients Actifs",
+              "nativeQueryRef": "Nb Clients Actifs v1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Clients Actifs v2"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Clients Actifs v2",
+              "nativeQueryRef": "Nb Clients Actifs v2"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Clients Actifs v3"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Clients Actifs v3",
+              "nativeQueryRef": "Nb Clients Actifs v3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Clients (avec ventes)"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Clients (avec ventes)",
+              "nativeQueryRef": "Nb Clients (avec ventes)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Client (base client)"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Client (base client)",
+              "nativeQueryRef": "Nb Client (base client)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total des Clients Actifs"
+                }
+              },
+              "queryRef": "MESURES DAX.Total des Clients Actifs",
+              "nativeQueryRef": "Total des Clients Actifs"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "130.65486725663717D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CALCULS et MESURES.Nb Clients Actifs"
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FF0000'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "MESURES DAX.Nb Clients Actifs v2"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "171771d75b80b7962500",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients Actifs v1"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "502651632ace1000b7a2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients (avec ventes)"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "MESURES DAX",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "Nb Clients (avec ventes)"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "f37a053da1507c126ab9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients Actifs v2"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fc7090dea237a1771260",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Clients Actifs v3"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "120250280193aae52616",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDates"
+              }
+            },
+            "Property": "Année"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f94d941568ecb47b400a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Client (base client)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e943cbb04072c65c5558",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total des Clients Actifs"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

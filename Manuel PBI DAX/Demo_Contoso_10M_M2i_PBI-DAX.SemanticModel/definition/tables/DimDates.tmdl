@@ -208,7 +208,7 @@ table DimDates
 	partition DimDates = calculated
 		mode: import
 		source =
-				ADDCOLUMNS( //Fonction pour ajouter des colonnes à une table
+				FILTER( ADDCOLUMNS( //Fonction pour ajouter des colonnes à une table
 				    CALENDARAUTO() ,//Fonction de calendrier automatique basée sur le modèle de données
 				"Année", YEAR([Date]) , //Création de la colonne Année
 				"Semestre", IF( QUARTER([Date])>2 , "Semestre 2" , "Semestre 1" ) ,   //Création de la colonne Semestre (Si le trimestre est sup à 2 alors Semestre 2, sinon Semestre 1)
@@ -229,5 +229,5 @@ table DimDates
 				"Num Jour Semaine" , WEEKDAY([Date] , 2) , //Numéro du jour de la semaine (paramètre 2 pour une semaine commencant le lundi)
 				"Date Nombre" , FORMAT([Date] , "YYYYMMDD") , //Date sous forme de nombre entier
 				"EstJourSem" , IF( WEEKDAY([Date] , 2) > 5 , 0 , 1 ) //Si le jour est en semaine (lundi-vendredi) alors 1 sinon 0 : permet les additions en jours ouvrés (hors WE)
-				)//Fin de la fonction ADDCOLUMNS
+				) , [Année] >=2015 )//Fin de la fonction ADDCOLUMNS
 

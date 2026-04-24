@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "e4f5a6b7c8d9e0f1a2b3v2",
   "position": {
     "x": 24,
@@ -20,10 +20,10 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CALCULS et MESURES"
+                      "Entity": "MESURES DAX"
                     }
                   },
-                  "Property": "Nb Clients Actifs"
+                  "Property": "Nb Clients Actifs v1"
                 }
               },
               "queryRef": "_Mesures.Nb Clients Actifs",
