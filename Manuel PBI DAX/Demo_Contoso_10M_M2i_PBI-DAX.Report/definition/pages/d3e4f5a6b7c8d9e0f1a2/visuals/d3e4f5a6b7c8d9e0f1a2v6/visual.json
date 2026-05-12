@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "d3e4f5a6b7c8d9e0f1a2v6",
+  "position": {
+    "x": 660,
+    "y": 196,
+    "z": 0,
+    "height": 480,
+    "width": 596,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimMagasins"
+                    }
+                  },
+                  "Property": "Pays Magasins"
+                }
+              },
+              "queryRef": "DimMagasins.Pays Magasins",
+              "nativeQueryRef": "Pays Magasins"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "_Mesures.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "CA Référence Globale"
+                }
+              },
+              "queryRef": "_Mesures.CA Référence Globale",
+              "nativeQueryRef": "CA Référence Globale"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Marques Magasins"
+                }
+              },
+              "queryRef": "_Mesures.Nb Marques Vendues",
+              "nativeQueryRef": "Nb Marques Vendues"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "MESURES DAX"
+                  }
+                },
+                "Property": "Total CA"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "522efa6426ca39d900c1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimMagasins"
+              }
+            },
+            "Property": "Pays Magasins"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c963e1b8ce44005ac456",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total CA"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c06c5561bdcd1576b43a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "CA Référence Globale"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5e2f8a81d6701070cd65",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Marques Magasins"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

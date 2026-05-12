@@ -1,6 +1,7 @@
 model Model
 	culture: fr-FR
 	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
 	sourceQueryCulture: fr-FR
 	dataAccessOptions
 		legacyRedirects
@@ -15,7 +16,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["DimClients","pAnneeHistorique","pServer","pBaseDeDonnees","DimMagasins","DimProduits","FactVENTES","Produits Non Vendu","Clients dans Ventes mais pas Client"]
 
-annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop"]
+annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode","DaxQueryView_Desktop","CalcGroup"]
 
 ref table DimClients
 ref table DimMagasins
@@ -23,6 +24,7 @@ ref table DimProduits
 ref table FactVENTES
 ref table DimDates
 ref table 'MESURES DAX'
+ref table 'Comparaison Temporelle'
 
 ref cultureInfo fr-FR
 

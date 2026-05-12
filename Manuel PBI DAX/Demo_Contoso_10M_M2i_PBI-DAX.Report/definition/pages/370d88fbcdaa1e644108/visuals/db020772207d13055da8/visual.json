@@ -1,0 +1,312 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "db020772207d13055da8",
+  "position": {
+    "x": 174.59241323648104,
+    "y": 119.83857949959645,
+    "z": 0,
+    "height": 548.57142857142856,
+    "width": 817.1751412429378,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactVENTES"
+                    }
+                  },
+                  "Property": "IDClient"
+                }
+              },
+              "queryRef": "FactVENTES.IDClient",
+              "nativeQueryRef": "IDClient & IDFact",
+              "active": true,
+              "displayName": "IDClient & IDFact"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactVENTES"
+                    }
+                  },
+                  "Property": "IDFacture"
+                }
+              },
+              "queryRef": "FactVENTES.IDFacture",
+              "nativeQueryRef": "IDFacture",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "MESURES DAX.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Panier Moyen"
+                }
+              },
+              "queryRef": "MESURES DAX.Panier Moyen",
+              "nativeQueryRef": "Panier Moyen"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Montant Fact ou Panier Moyen"
+                }
+              },
+              "queryRef": "MESURES DAX.Montant Fact ou Panier Moyen",
+              "nativeQueryRef": "Montant Fact ou Panier Moyen"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "FactVENTES.IDClient"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactVENTES"
+                    }
+                  },
+                  "Property": "IDClient"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "FactVENTES.IDFacture"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "168L"
+                  }
+                }
+              ],
+              "isToggled": true
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "171L"
+                  }
+                }
+              ],
+              "isToggled": true
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "131.25021629896702D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "FactVENTES.IDClient"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "97687d6c7e2861a0cae6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactVENTES"
+              }
+            },
+            "Property": "IDClient"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "FactVENTES",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "f"
+                          }
+                        },
+                        "Property": "IDClient"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "167L"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "168L"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "171L"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "172L"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "98dcd9682a7ec78cc043",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total CA"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "29d34b3a22b78d040c51",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Panier Moyen"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "81d3cde8adac2651a0e7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Montant Fact ou Panier Moyen"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2aaf5c67d3c3dec00747",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactVENTES"
+              }
+            },
+            "Property": "IDFacture"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

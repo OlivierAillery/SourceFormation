@@ -1,0 +1,162 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "3ccb71a7acd01e5630d1",
+  "position": {
+    "x": 211.06382978723406,
+    "y": 274.28571428571428,
+    "z": 1000,
+    "height": 445.47112462006083,
+    "width": 628.32826747720367,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année-Mois"
+                }
+              },
+              "queryRef": "DimDates.Année-Mois",
+              "nativeQueryRef": "Année-Mois",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Quantite"
+                }
+              },
+              "queryRef": "MESURES DAX.Quantite",
+              "nativeQueryRef": "Quantite"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Qté PARALLELPERIOD -12mois"
+                }
+              },
+              "queryRef": "MESURES DAX.Qté PARALLELPERIOD -12mois",
+              "nativeQueryRef": "Qté PARALLELPERIOD -12mois"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Qté PARALLELPERIOD -1an"
+                }
+              },
+              "queryRef": "MESURES DAX.Qté PARALLELPERIOD -1an",
+              "nativeQueryRef": "Qté PARALLELPERIOD -1an"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDates"
+                  }
+                },
+                "Property": "Année-Mois"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "459aed4c3d9ae1290b10",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDates"
+              }
+            },
+            "Property": "Année-Mois"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ce697a199cc810646813",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Quantite"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "10526704a51314c20197",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Qté PARALLELPERIOD -12mois"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0bf71e04837e80c0a477",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Qté PARALLELPERIOD -1an"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -493,6 +493,71 @@ table 'MESURES DAX'
 		displayFolder: 04 - Demos Formation
 		lineageTag: 651c85a5-48d8-49b1-b482-c449201d65ee
 
+	/// Nb de marques distinctes vendues dans le contexte actif (pays, magasin...).
+	/// CROSSFILTER BOTH : propage le filtre en sens inverse FactVENTES -> DimProduits.
+	/// Sans CROSSFILTER, DISTINCTCOUNT(DimProduits[Marque]) ignorerait le contexte de filtre magasin.
+	measure 'Nb Marques Magasins' =
+			-- CROSSFILTER BOTH : active le filtrage bidirectionnel sur la relation IDProduit
+			-- Le filtre posé sur DimMagasins traverse FactVENTES et remonte vers DimProduits
+			CALCULATE(
+			    [Nb Marques],
+			    CROSSFILTER( FactVENTES[IDProduit], DimProduits[IDProduit], BOTH )
+			)
+		formatString: #,##0
+		displayFolder: 04 - Demos Formation\Relations
+		lineageTag: d1000000-0000-0000-0000-000000000011
+
+	/// CA total independant du filtre magasin - sert de benchmark dans un tableau par pays.
+	/// CROSSFILTER NONE : coupe la relation DimMagasins <-> FactVENTES uniquement.
+	/// Les filtres date, produit et client restent actifs.
+	measure 'CA Référence Globale' =
+			-- CROSSFILTER NONE : desactive la propagation du filtre magasin vers FactVENTES
+			-- Retourne le CA toutes enseignes confondues, quel que soit le pays affiche
+			CALCULATE(
+			    [Total CA],
+			    CROSSFILTER( FactVENTES[IDMagasin], DimMagasins[IDMagasin], NONE )
+			)
+		formatString: #,##0.00 €
+		displayFolder: 04 - Demos Formation\Relations
+		lineageTag: d1000000-0000-0000-0000-000000000012
+
+	measure 'Nb Marques Vendues (sans CROSSFILTER)' =
+			-- sans CROSSFILTER BOTH : active le filtrage bidirectionnel sur la relation IDProduit
+			-- Le filtre posé sur DimMagasins traverse FactVENTES et remonte vers DimProduits
+			CALCULATE(
+			    DISTINCTCOUNT( DimProduits[Marque] )
+			)
+		formatString: 0
+		displayFolder: 04 - Demos Formation\Relations
+		lineageTag: a5be9b5d-97ac-4978-ad91-14523dbb04f0
+
+	measure 'Nb Marques' = ```
+			DISTINCTCOUNT( DimProduits[Marque] ) 
+			```
+		formatString: 0
+		displayFolder: 01 - Base
+		lineageTag: caf8002f-601f-42c2-99e4-2af82421c125
+
+	measure 'Montant Fact ou Panier Moyen' =
+			SWITCH( TRUE(),
+			    ISINSCOPE( FactVENTES[IDFacture] ) , "Total Facture : " & FORMAT( [Total CA]  , "#,0.0000 K€" ) ,
+			    ISINSCOPE( FactVENTES[IDClient] ) , "Moyenne Client : " & FORMAT( [Panier Moyen] , "#,#.00 €" )
+			)
+		displayFolder: 04 - Demos Formation
+		lineageTag: b3e54521-f64d-475d-99f5-8b45fd3d0f48
+
+	measure 'Qté PARALLELPERIOD -1an' = CALCULATE( [Quantite] ,  PARALLELPERIOD( DimDates[Date] , -1 , YEAR ) )
+		formatString: #,0
+		lineageTag: 438500fd-2ad9-4caf-9adc-114f4eaab2bc
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Qté PARALLELPERIOD -12mois' = CALCULATE( [Quantite] ,  PARALLELPERIOD( DimDates[Date] , -12 , MONTH ) )
+		formatString: #,0
+		lineageTag: cb64ff0a-25ea-4faf-a875-c5c31f2886f9
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
 	/// Colonne inutile mais une table ne peut pas ne pas avoir de colonnes du tout ;-)
 	column ColonneInutile
 		isHidden

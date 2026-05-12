@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "f12c25ae40029b117d16",
+  "position": {
+    "x": 689.60486322188456,
+    "y": 293.73860182370822,
+    "z": 0,
+    "height": 295.68389057750761,
+    "width": 506.74772036474167,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimMagasins"
+                    }
+                  },
+                  "Property": "IDMagasin"
+                }
+              },
+              "queryRef": "DimMagasins.IDMagasin",
+              "nativeQueryRef": "IDMagasin"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Marques Magasins"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Marques Vendues",
+              "nativeQueryRef": "Nb Marques Magasins"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Nb Marques"
+                }
+              },
+              "queryRef": "MESURES DAX.Nb Marques",
+              "nativeQueryRef": "Nb Marques"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "96.17628459654253D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "MESURES DAX.Nb Marques Vendues"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f0cf453c68e425c15e38",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Marques Magasins"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f8580ca8b1445210c209",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimMagasins"
+              }
+            },
+            "Property": "IDMagasin"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "629a8fd47bed2b25ad1e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Nb Marques"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

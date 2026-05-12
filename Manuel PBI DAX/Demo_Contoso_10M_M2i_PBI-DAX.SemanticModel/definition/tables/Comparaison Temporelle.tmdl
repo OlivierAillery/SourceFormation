@@ -1,0 +1,37 @@
+table 'Comparaison Temporelle'
+	lineageTag: b7eb460d-0482-4349-8459-86584430c075
+
+	calculationGroup
+
+		calculationItem Actuel = SELECTEDMEASURE()
+
+		calculationItem 'Mois Précédent' = CALCULATE( SELECTEDMEASURE(), DATEADD( DimDates[Date] , -1 , MONTH ) )
+
+		calculationItem 'Année Précédente' = CALCULATE( SELECTEDMEASURE(), DATEADD( DimDates[Date] , -1 , YEAR ) )
+
+		calculationItem 'Var en % N-1' =
+				
+				VAR ValeurN1 = CALCULATE( SELECTEDMEASURE() , DATEADD( DimDates[Date] , -1 , YEAR ) )
+				RETURN
+				DIVIDE( SELECTEDMEASURE() - ValeurN1 , ValeurN1 )
+
+			formatStringDefinition = "0.00%"
+
+	column 'Choix du Calcul'
+		dataType: string
+		lineageTag: ff1153a2-e98a-454d-9ee8-e06291bdcfe9
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 2584cdf4-3d31-464a-81e9-18d0e119b54a
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

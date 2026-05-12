@@ -1,0 +1,11 @@
+createOrReplace
+
+	ref table 'MESURES DAX'
+
+		measure 'CA Ordinateurs' = CALCULATE( [Total CA], DimProduits[Catégorie] = "Computers" )
+			formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+			displayFolder: 04 - Demos Formation
+			lineageTag: 973beefa-e16f-4d93-b123-6309a99be6bd
+
+			annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+

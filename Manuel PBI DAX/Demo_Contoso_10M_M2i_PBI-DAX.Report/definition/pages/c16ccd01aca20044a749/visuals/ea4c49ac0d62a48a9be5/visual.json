@@ -1,0 +1,134 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "ea4c49ac0d62a48a9be5",
+  "position": {
+    "x": 724.19693301049233,
+    "y": 55.786924939467312,
+    "z": 1,
+    "height": 664.277643260694,
+    "width": 351.25100887812749,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année-Mois"
+                }
+              },
+              "queryRef": "DimDates.Année-Mois",
+              "nativeQueryRef": "Année-Mois",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Quantite"
+                }
+              },
+              "queryRef": "MESURES DAX.Quantite",
+              "nativeQueryRef": "Quantite"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "MESURES DAX.Total CA",
+              "nativeQueryRef": "Total CA"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDates"
+                  }
+                },
+                "Property": "Année-Mois"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "07baec56575082c801d9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDates"
+              }
+            },
+            "Property": "Année-Mois"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7f69f34ce13994e5cdab",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Quantite"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aae8294040e74802c534",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total CA"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

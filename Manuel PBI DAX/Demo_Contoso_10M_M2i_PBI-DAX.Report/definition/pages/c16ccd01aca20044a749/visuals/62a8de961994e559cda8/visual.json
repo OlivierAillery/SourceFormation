@@ -1,0 +1,139 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "62a8de961994e559cda8",
+  "position": {
+    "x": 55.786924939467312,
+    "y": 107.44148506860371,
+    "z": 0,
+    "height": 601.25907990314772,
+    "width": 538.24051654560128,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Comparaison Temporelle"
+                    }
+                  },
+                  "Property": "Choix du Calcul"
+                }
+              },
+              "queryRef": "Comparaison Temporelle.Choix du Calcul",
+              "nativeQueryRef": "Choix du Calcul",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDates"
+                    }
+                  },
+                  "Property": "Année-Mois"
+                }
+              },
+              "queryRef": "DimDates.Année-Mois",
+              "nativeQueryRef": "Année-Mois",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Quantite"
+                }
+              },
+              "queryRef": "MESURES DAX.Quantite",
+              "nativeQueryRef": "Quantite"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDates"
+                  }
+                },
+                "Property": "Année-Mois"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "76b16e228b830831895c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDates"
+              }
+            },
+            "Property": "Année-Mois"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d6fde48fa4283a72ba26",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Quantite"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a85a384cc0c42be0a5e3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Comparaison Temporelle"
+              }
+            },
+            "Property": "Choix du Calcul"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

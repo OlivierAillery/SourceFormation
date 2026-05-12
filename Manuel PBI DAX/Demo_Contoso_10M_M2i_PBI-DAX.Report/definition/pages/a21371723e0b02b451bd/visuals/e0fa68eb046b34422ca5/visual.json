@@ -1,0 +1,112 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "e0fa68eb046b34422ca5",
+  "position": {
+    "x": 263.58662613981767,
+    "y": 199.39209726443769,
+    "z": 2000,
+    "height": 256.77811550151978,
+    "width": 426.01823708206689,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimMagasins"
+                    }
+                  },
+                  "Property": "Pays Magasins"
+                }
+              },
+              "queryRef": "DimMagasins.Pays Magasins",
+              "nativeQueryRef": "Pays Magasins"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "Total CA"
+                }
+              },
+              "queryRef": "MESURES DAX.Total CA",
+              "nativeQueryRef": "Total CA"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MESURES DAX"
+                    }
+                  },
+                  "Property": "CA Référence Globale"
+                }
+              },
+              "queryRef": "MESURES DAX.CA Référence Globale",
+              "nativeQueryRef": "CA Référence Globale"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "84e83decda824299c798",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimMagasins"
+              }
+            },
+            "Property": "Pays Magasins"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "0c8bb2c488b335409d5a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "Total CA"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d17cb827576e137012b8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MESURES DAX"
+              }
+            },
+            "Property": "CA Référence Globale"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
